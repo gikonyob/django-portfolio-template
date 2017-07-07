@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} {{title}} {% endblock %}
+{% block content %}
+<div id="the_jumbotron" class="jumbotron col-sm-12 col-md-12 col-lg-12" style="color: #fff;background: rgba(0, 0, 0, 0.0); height: 100%; margin-bottom: 0; padding-top: 10%">
+	<div class="container" >
+		<h1>{{title}}</h1>
+	</div>
+<table id="the_table" class="table table-hover table-striped" style="display: None; color: #000000; background-color: rgba(255,250,240, 0.3);">
+<div class="container">
+	<tbody>
+	<tr>
+		<th>Bio</th>
+	</tr>
+	<tr>
+		<td>{{bio}}</td>
+	</tr>
+	<tr>
+		<th>Skills</th>
+	</tr>
+	<tr>
+		<td>
+		<ul class="list-unstyled">
+		{% for skill in skills %}
+			<li>{{skill}}</li>
+		{% endfor %}
+		</ul>
+		</td>
+	</tr>
+	
+	<tr>
+		<th>Projects</th>
+	</tr>
+	<tr>
+		<td>
+		<ul class="list-unstyled">
+			<li> Some of my projects are: </li>
+			{% for project in projects %}
+				<li><a href="{{project}}">{{project}}</a></li>
+			{% endfor %}
+			<li>Other projects are in private repos in Bitbucket at various stages of development, e.g. mediCate, opencv-mm, audiostyletransfer,etc</li>
+		</ul>
+		</td>
+	</tr>
+</tbody>
+</div>
+</table>
+
+</div>
+{% endblock %}

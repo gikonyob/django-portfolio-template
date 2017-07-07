@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} {{title}} {% endblock %}
+{% block content %}
+<div id="the_jumbotron" class="jumbotron col-sm-12 col-md-12 col-lg-12" style="color: #fff; height: 100%; background: rgba(0, 0, 0, 0.0); margin-bottom: 0; padding-top: 15%">
+	<div class="container" >
+		<h1>Hi there!</h1>
+		<h2>My name is {{name}}.</h2>
+	</div>
+	<div id="the_table" class="jumbotron col-sm-12 col-md-12 col-lg-12" style="display: None; color: #fff; background: rgba(0, 0, 0, 0.0); height: 100%; margin-bottom: 0;">
+	<p>{{description}}</p>
+	</div>
+</div>
+{% endblock %}

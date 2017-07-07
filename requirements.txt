@@ -1,0 +1,6 @@
+Django==1.11.3
+gunicorn==19.7.1
+olefile==0.44
+Pillow==4.2.0
+pytz==2017.2
+whitenoise==3.3.0
