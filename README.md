@@ -2,28 +2,28 @@
 Template for quickly building a portfolio
 
 ## Prerequisites
-Built using python2.7
-Clone this repository and delete the .git folder
-```
+Built using python2.7.
+Clone this repository and delete the .git folder.
+````
 git clone django-portfolio-template
 rm -rf django-portfolio-template/.git
-```
+````
 Download the virtualenv package.
-```
+````
 pip install virtualenv
-```
+````
 Create and activate a  virtual environment on the cloned template folder for development.
-```
+````
 virtualenv django-portfolio-template
 source django-portfolio-template/bin/activate
-```
+````
 Then in the virtual environment run the following;
-```
+````
 (django-portfolio-template)[user@host~]$ pip install requirements.txt
 (django-portfolio-template)[user@host~]$ cd django-portfolio-template
-```
+````
 Then run these commands;
-```
+````
 (django-portfolio-template)[user@host~]$ python manage.py collectstatic
 You have requested to collect static files at the destination
 location as specified in your settings:
@@ -50,7 +50,7 @@ Django version 1.10.5, using settings 'portfolio_template.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 
-```
+````
 ## Quick start
 On your favourite browser go to http://127.0.0.1:8000/create_portfolio and fill the form with 
 your details.
@@ -68,12 +68,12 @@ ALLOWED_HOSTS = [
 	]
 ````
 Then run the following commands,
-```
+````
 git init
 git add .
 git commit -m "Your portfolio"
 heroku login
 heroku create appname
 git push heroku master
-```
+````
 
