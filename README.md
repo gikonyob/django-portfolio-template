@@ -1,7 +1,7 @@
-##django portfolio template
+## django portfolio template
 Template for quickly building a portfolio
 
-##Prerequisites
+## Prerequisites
 Built using python2.7
 Clone this repository and delete the .git folder
 ```
@@ -51,11 +51,13 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 
 ```
-##Quick start
+## Quick start
 On your favourite browser go to http://127.0.0.1:8000/create_portfolio and fill the form with 
-your details
+your details.
+Note: By default the form is disabled as soon as you submit your details, so make them count or 
+customize this behavior.
 
-##Deployment
+## Deployment
 Since it has been made to be easily deployable to heroku simply do the following if you have an account
 and have heroku-cli installed;
 Add the following to settings.py in project_template folder,
