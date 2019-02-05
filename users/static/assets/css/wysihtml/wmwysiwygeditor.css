@@ -1,0 +1,67 @@
+/*WM Wysiwyg Editor's container*/
+.wmwysiwyg-container{
+	position: relative;
+}
+
+	/*WM Wysiwyg Editor's toolbar*/
+	.wmwysiwyg-toolbar{
+		position: relative;
+		
+	}
+
+		.wmwysiwyg-toolbar .btn{
+			outline: 0;
+			cursor: pointer;
+		}
+
+		.wmwysiwyg-toolbar > .btn-group,
+		.wmwysiwyg-toolbar > .btn{
+			margin: 2px;
+		}
+
+		.wmwysiwyg-toolbar .dropdown-menu{
+			min-width: auto;
+			box-shadow: 0 3px 5px rgba(0,0,0, 0.25);
+		}
+
+
+		/*------ Dropdown Color picker ------*/
+		.wmwysiwyg-dropdown-colorpicker{
+			width: 332px;
+			font-size: 0;
+			padding: 3px;
+		}
+			.wmwysiwyg-color-palette{
+				height: 17px;
+				width: 17px;
+				border: none;
+				display: inline-block;
+				padding: 0;
+				cursor: pointer;
+			}
+
+	/*WM Wysiwyg Editor's editor*/
+	.wmwysiwyg-editor{
+		position: relative;
+		
+		
+	}
+
+.wmwysiwyg-fullscreen-body{
+	overflow: hidden;
+}
+
+/*WM Wysiwyg Editor's container with FullScreen*/
+.wmwysiwyg-fullscreen{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100% !important;
+}
+	
+	/*WM Wysiwyg Editor's editor with FullScreen*/
+	.wmwysiwyg-fullscreen .wmwysiwyg-toolbar{
+		text-align: center;
+		padding: 10px;
+	}

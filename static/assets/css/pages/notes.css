@@ -1,0 +1,22 @@
+/*------------------------------------------------------------------
+[Table of contents]
+
+1. Notes Style
+
+-------------------------------------------------------------------*/
+/* line 8, ../../scss/pages/notes.scss */
+.note {
+  position: relative;
+}
+/* line 11, ../../scss/pages/notes.scss */
+.note .note-controls {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  opacity: 0;
+}
+/* line 20, ../../scss/pages/notes.scss */
+.note:hover .note-controls {
+  opacity: 1;
+}

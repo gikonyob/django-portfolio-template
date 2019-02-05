@@ -1,0 +1,321 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Cosmo - Responsive Dashboard Admin Template">
+    <meta name="author" content="Akshay Kumar">
+
+    <link rel="icon" href="{% static 'icon.ico' %}">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/basestyle/style_landing.css' %}">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        .modal-open .wrapper {
+            transition: filter 0.5s;
+            filter: blur(3px);
+        }
+        @font-face {
+            font-family: FonartoXT;
+            src: url({% static 'assets/fonts/Fonarto XT.ttf' %});
+        }
+        @font-face {
+            font-family: Fonarto;
+            src: url({% static 'assets/fonts/Fonarto.ttf' %});
+        }
+        #sign_up_button:hover, 
+        #sign_in_button:hover {
+            border-width: 1px !important;
+            border-color: #fff !important;
+            color: #fff !important;
+        }
+        label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #6c757d;
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        .form-control {
+            border-top: 0;
+            border-right: 0;
+            border-left: 0;
+            border-radius: 0;
+        }
+        [type="text"] {
+            color: #111;
+        }
+        .lds-ellipsis {
+            position: relative;
+            width: 65px;
+            height: 25px;
+            top: 7px;
+        }
+        
+        .lds-ellipsis div {
+            position: absolute;
+            width: 11px;
+            height: 13px;
+            border-radius: 50%;
+            background: #fff;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 6px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 6px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 30px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 54px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
+    </style>
+
+    <title>Home - Porfolio Template</title>
+  </head>
+<body>
+    {% csrf_token %}
+    <div class="modal fade" id="sign_in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #f8f9fa; border-width: 0px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="material-icons ">close</span>
+                    </button>
+                </div>
+                <div class="modal-body container-fluid" style="padding-top: 0px; padding-bottom: 0px">     
+                    <div class="row">
+                        <div class="col-sm-12" style="background-color: #f8f9fa;">
+                            <span id="login_form_validation" style="color: red; font-size: 0.9rem; padding-left: 10px; display:none"></span>
+                            <div id="login_message">
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-success alert-st-one" role="alert" style="border-radius:7px; background-color: #4CAF50; border-color: #4CAF50; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                                                <p style="color: white; font-size: 15px; margin-bottom: 2p;">{{ message }}</p>
+                                            </div>
+                                        {% endfor %}
+                                        <script>
+                                            window.addEventListener('load', function () {
+                                                $("#sign_in").modal("toggle");
+                                                }, false);
+                                        </script>
+                                {% endif %}
+                            </div>
+                            <form style="padding: 10px">
+                                <div class="form-group">
+                                    <label for="email_or_username">Email/username <p> </p></label>
+                                    <input class="form-control" style="height: 45px; border-radius: 5px;" type="text" name="email_or_username" id="email_or_username" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password </label>
+                                    <input class="form-control" style="height: 45px; border-radius: 5px;" type="password" name="password" min-length="8" id="signin_password" placeholder="********" required />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #f8f9fa; border-width: 0px; justify-content: space-between; padding-left: 30px; padding-right: 30px;">
+                    <a></a>
+                        <button type="button" class="btn btn-secondary" id="sign_in_btn" style="padding-left: 25px; padding-right: 25px;" onclick="signin()">Sign in</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="wrapper">
+          <div class="header-jumbotron mb-5" style="background: url({% static 'assets/images/backgrounds/background.png' %}); background-position: center; 
+          background-repeat: no-repeat; background-size: cover;">
+                
+                <header class=" my-3">
+                    <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-dark px-0">
+                      <h1 class="weight-400 m-0"><a class="navbar-brand text-dark align-middle" href=""><b><img style="height: 30px;" src="{% static 'logo.png' %}" /></b></a></h1>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav ml-auto">
+                          <a class="nav-item nav-link px-3 btn" role="button" style="color: #fff !important;" id="sign_in_button" data-toggle="modal" data-target="#sign_in">Sign in</a>
+                        </div>
+                      </div>
+                    </nav>
+                    </div>
+                </header>
+
+                <div class="container align-items-center d-flex flex-grow-1">
+                    <div class="row  ">
+                        <div class="col-md order-md-2" style="position: static;">
+                            <img src="assets/images/app.png" class="app-image mb-md-auto mb-4 img-fluid">
+                        </div>
+                        <div class="col-md order-md-1 text-center text-md-left">
+                            <h1 class="mb-3" style="color: #fff">Django Portfolio Demo</h1>
+                            <p class="text-muted" style="color: #e6ecf0 !important;">This was just a pet project I did since I had some time to kill. But you can use it at your own pleasure I suppose.</p>
+                            <div class="mt-5">
+                              <a href="http://cosmoadmin.com/preview" target="_blank" class="btn btn-primary px-4 mr-1 py-2 circle" style="background-color: #e6ecf0; border-color: #e6ecf0; color: #545b62;">Portfolio Preview</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+          </div>
+
+          <footer class="footer pb-5">
+              <div class="container flex-grow-1">
+                  <div class="row">
+                      <div class="col-md">
+                        <h6 class="text-dark weight-400 mb-3">Cosmo Template</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#home" class="text-muted">Home</a></li>
+                            <li><a href="#features" class="text-muted">Features</a></li>
+                            <li><a href="#modules" class="text-muted">Modules</a></li>
+                            <li><a href="https://themeforest.net/item/cosmo-bootstrap-4-responsive-admin-dashboard-template/22392885/support" class="text-muted">Help &amp; Support</a></li>
+                            <li><a href="http://cosmoadmin.com/preview/documentation.html" class="text-muted">Documentation</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md">
+                        <h6 class="text-dark weight-400 mb-3">FreakPixels Products</h6>
+                        <ul class="list-unstyled">
+                            <li><a target="_blank" href="https://themeforest.net/item/cosmo-bootstrap-4-responsive-admin-dashboard-template/22392885" class="text-muted">Cosmo Template</a></li>
+                            <li><a target="_blank" href="https://themeforest.net/item/brio-web-app-bootstrap-admin-template-dashboard/9529051" class="text-muted">Brio Admin</a></li>
+                            <li><a target="_blank" href="https://themeforest.net/item/flatron-responsive-admin-template-web-app/6277474" class="text-muted">Flatron Theme</a></li>
+                            <li><a target="_blank" href="https://themeforest.net/item/esthetics-adminclean-admin-template/3647979" class="text-muted">Esthetics</a></li>
+                            <li><a target="_blank" href="https://themeforest.net/item/eternity-admin-theme/2219396" class="text-muted">Eternity Admin</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md">
+                        <h6 class="text-dark weight-400 mb-3">Connect Social</h6>
+                        <ul class="list-unstyled">
+                            <li><a target="_blank" href="https://www.facebook.com/FreakPixels-1472369582996273/" class="text-muted">Facebook</a></li>
+                            <li><a target="_blank" href="https://dribbble.com/akshaykumar" class="text-muted">Dribble</a></li>
+                            <li><a target="_blank" href="https://themeforest.net/user/freakpixels/portfolio" class="text-muted">Themeforest</a></li>
+                            <li><a target="_blank" href="#" class="text-muted">Instagram</a></li>
+                            <li><a target="_blank" href="#" class="text-muted">Twitter</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md">
+                        <h6 class="text-dark weight-400 mb-3">About Developer</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-muted">Akshay Kumar</a></li>
+                            <li><a href="mailto:akshay.azaste@gmail.com" class="text-muted">akshay.azaste@gmail.com</a></li>
+                            <li><a href="skype:akshay--kumar?call" class="text-muted">skype : akshay--kumar</a></li>
+                            <li><a href="tel:+91 9990 826 292" class="text-muted">+91 9990 826 292</a></li>
+                        </ul>
+                      </div>
+                  </div>
+              </div>
+          </footer>
+
+
+
+    </section>
+
+    <script>
+        function signin(){
+            var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            var registration_message = document.getElementById("login_message");
+            registration_message.innerHTML = "";
+            var sign_in_btn = document.getElementById("sign_in_btn");
+            sign_in_btn.innerHTML = "<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>";
+            var email_or_username_input = document.getElementById("email_or_username").value;
+            var password_input = document.getElementById("signin_password").value;
+            form_validation = document.getElementById("login_form_validation");
+            form_validation.style.display = "none";
+            if (email_or_username_input==null || email_or_username_input=="" || password_input==null || password_input==""){
+                form_validation.innerHTML = "Please make sure you've entered your credentials.";
+                form_validation.style.display = "block";
+                sign_in_btn.innerHTML = "Sign in";
+                return false;
+            } else {
+                data = {
+                    "email_or_username": email_or_username_input,
+                    "password": password_input,
+                    "csrfmiddlewaretoken": csrf_token
+                };
+                if(navigator.onLine === true){
+                    $.post("{{url}}/login", data,
+                    function(response, status){
+                        if(status === "success"){
+                            if(response.status === "login_success"){
+                                window.location = response.url;
+                            } else if(response.status === "login_error"){
+                                registration_message.innerHTML = '<div class="alert alert-danger alert-mg-b alert-st-four" role="alert" style="border-radius:7px; background-color: red; border-color: red; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
+                                <p style="color: white; font-size: 15px; margin-bottom: 2p;">' + response.message + '</p></div>';
+                                sign_in_btn.innerHTML = "Sign in";
+                                form_validation.style.display = "none";
+                                return true;
+                            }
+                        }
+                    });
+                } else {
+                    registration_message.innerHTML = '<div class="alert alert-danger alert-mg-b alert-st-four" role="alert" style="border-radius: 7px; background-color: red; border-color: red; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px;text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
+                                                <p style="color: white; font-size: 15px; margin-bottom: 2p;">You are offline</p></div>';
+                    sign_in_btn.innerHTML = "Sign in";
+                    return false;
+                }
+            }
+        }
+    </script>
+    <script src="{% static 'assets/js/lib/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap/bootstrap.min.js' %}"></script>   
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56821827-7"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-56821827-7');
+      </script>
+
+</body>
+</html>
