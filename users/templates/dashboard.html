@@ -321,7 +321,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search skills">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_skill" style="background-color: #6c757d; border-color: #6c757d">Add Skill</button>
 
                     </div>
                   </div>
@@ -332,47 +332,37 @@
                   <thead class="thead-light2">
                     <tr>
                       <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Percentage </th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
+                    {% for skill in skills %}
+                    <tr>
                       <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                          <a class="text-secondary">
+                            {{skill.name}}
                           </a>
                       </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
+                      <td data-label="Percentage">
+                            <a  class="text-secondary">
+                            {{skill.percentage}}
                             </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{skill.pk}}', '{{skill.name}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if skills|length == 0 %}
                     <tr>
                         <td colspan="5">No skills were found.</td>
                     </tr>
@@ -380,36 +370,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
 
 
                 <footer class="footer">
@@ -433,7 +393,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search quotes">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_quote" style="background-color: #6c757d; border-color: #6c757d">Add Quote</button>
 
                     </div>
                   </div>
@@ -443,48 +403,38 @@
                 <table class="table mb-4 responsive-table table-bordered bg-white">
                   <thead class="thead-light2">
                     <tr>
-                      <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Quote </th>
+                      <th scope="col" class="resizeable">Quoter</th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
-                      <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                    {% for quote in quotes %}
+                    <tr>
+                      <td data-label="Quote">
+                          <a  class="text-secondary">
+                            {{quote.quote}}
                           </a>
                       </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
+                      <td data-label="Quoter">
+                            <a class="text-secondary">
+                            {{quote.quoter}}
                             </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{quote.pk}}', '{{quote.quote}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if quotes|length == 0 %}
                     <tr>
                         <td colspan="5">No quotes were found.</td>
                     </tr>
@@ -492,36 +442,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
 
 
                 <footer class="footer">
@@ -545,7 +465,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search projects">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_project" style="background-color: #6c757d; border-color: #6c757d">Add Project</button>
 
                     </div>
                   </div>
@@ -556,47 +476,37 @@
                   <thead class="thead-light2">
                     <tr>
                       <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Technologies </th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
+                    {% for project in projects %}
+                    <tr>
                       <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                          <a href="{{project.url}}" class="text-secondary">
+                            {{project.name}}
                           </a>
                       </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
-                            </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
+                      <td data-label="Technologies">
+                            {% for technology in project.technologies.all %}
+                              {{technology}}<br>
+                            {% endfor %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{project.pk}}', '{{project.name}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if projects|length == 0 %}
                     <tr>
                         <td colspan="5">No projects were found.</td>
                     </tr>
@@ -604,36 +514,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
 
 
                 <footer class="footer">
@@ -657,7 +537,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search interests">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_interest" style="background-color: #6c757d; border-color: #6c757d">Add interest</button>
 
                     </div>
                   </div>
@@ -668,47 +548,31 @@
                   <thead class="thead-light2">
                     <tr>
                       <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
+                    {% for interest in interests %}
+                    <tr>
                       <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                          <a class="text-secondary">
+                            {{interest.name}}
                           </a>
-                      </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
-                            </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{interest.pk}}', '{{interest.name}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if interests|length == 0 %}
                     <tr>
                         <td colspan="5">No interests were found.</td>
                     </tr>
@@ -716,37 +580,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
-
 
                 <footer class="footer">
                   <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
@@ -769,7 +602,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search facts">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_fact" style="background-color: #6c757d; border-color: #6c757d">Add fact</button>
 
                     </div>
                   </div>
@@ -779,48 +612,38 @@
                 <table class="table mb-4 responsive-table table-bordered bg-white">
                   <thead class="thead-light2">
                     <tr>
-                      <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Fact </th>
+                      <th scope="col" class="resizeable">By </th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
-                      <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                    {% for fact in fun_facts %}
+                    <tr>
+                      <td data-label="Fact">
+                          <a class="text-secondary">
+                            {{fact.fact}}
                           </a>
                       </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
+                      <td data-label="By">
+                            <a class="text-secondary">
+                            {{fact.who_by}}
                             </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{fact.pk}}', '{{fact.fact}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if fun_facts|length == 0 %}
                     <tr>
                         <td colspan="5">No fun facts were found.</td>
                     </tr>
@@ -828,37 +651,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
-
 
                 <footer class="footer">
                   <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
@@ -881,7 +673,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search repositories">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_repositories" style="background-color: #6c757d; border-color: #6c757d">Add repository</button>
 
                     </div>
                   </div>
@@ -892,47 +684,37 @@
                   <thead class="thead-light2">
                     <tr>
                       <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Site </th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
+                    {% for repository in repositories %}
+                    <tr>
                       <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                          <a href="{{repository.url}}" class="text-secondary">
+                            {{repository.name}}
                           </a>
                       </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
+                      <td data-label="Site">
+                            <a href="{{repository.site}}" class="text-secondary">
+                            {{repository.site}}
                             </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{repository.pk}}', '{{repository.name}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if repositories|length == 0 %}
                     <tr>
                         <td colspan="5">No repositories were found.</td>
                     </tr>
@@ -940,36 +722,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
 
 
                 <footer class="footer">
@@ -993,7 +745,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search socials">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_social" style="background-color: #6c757d; border-color: #6c757d">Add social</button>
 
                     </div>
                   </div>
@@ -1004,47 +756,36 @@
                   <thead class="thead-light2">
                     <tr>
                       <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Site </th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
+                    {% for social in socials %}
+                    <tr>
                       <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                          <a href="{{social.url}}" class="text-secondary">
+                            {{social.name}}
                           </a>
                       </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
+                      <td data-label="Site">
+                            <a href="{{social.site}}" class="text-secondary">
+                            {{social.site}}
                             </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
-                      </td>
-                      
+                      </td>                      
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{social.pk}}', '{{social.name}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if socials|length == 0 %}
                     <tr>
                         <td colspan="5">No socials were found.</td>
                     </tr>
@@ -1052,37 +793,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
-
 
                 <footer class="footer">
                   <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
@@ -1105,7 +815,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search articles">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_article" style="background-color: #6c757d; border-color: #6c757d">Add article</button>
 
                     </div>
                   </div>
@@ -1115,48 +825,32 @@
                 <table class="table mb-4 responsive-table table-bordered bg-white">
                   <thead class="thead-light2">
                     <tr>
-                      <th scope="col" class="resizeable">Name </th>
-                      <th scope="col" class="resizeable">Username </th>
-                      <th scope="col" class="resizeable">Email </th>
-                      <th scope="col" class="resizeable">Active Status</th>
+                      <th scope="col" class="resizeable">Title </th>
                      <th scope="col" width="1">Actions</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    {% for admin in admins %}
-                    <tr id="{{admin.username}}">
+                    {% for article in articles %}
+                    <tr>
                       <td data-label="Name">
-                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.get_full_name}}
+                          <a href="{{article.url}}" class="text-secondary">
+                            {{article.title}}
                           </a>
-                      </td>
-                      <td data-label="Username">
-                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
-                            {{admin.username}}
-                            </a>
-                      </td>
-                      <td data-label="Email">{{admin.email}}</td>
-                      <td data-label="Active Status">
-                          {% if admin.is_active %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
-                          {% else %}
-                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
-                          {% endif %}
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
                         <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
                            
-                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{article.pk}}', '{{article.title}}')">Delete</a>
                             
                         </div>
                       </td>
                       
                     </tr> 
                     {% endfor %}
-                    {% if admins|length == 0 %}
+                    {% if articles|length == 0 %}
                     <tr>
                         <td colspan="5">No articles were found.</td>
                     </tr>
@@ -1164,36 +858,6 @@
                                        
                   </tbody>
                 </table>
-
-                
-                <nav aria-label="Page navigation example">
-                {% if admins.paginator.num_pages != 1 %}
-                  <form class="form-inline float-left">
-                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
-                    <select class="form-control" id="show-data">
-                      <option selected value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      <option value="all">all</option>
-                    </select>
-                  </form>
-                  {% endif %}
-                  <ul class="pagination mt-3 justify-content-end">
-                    {% if admins.has_previous %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
-                    {% endif %}
-                    {% if admins.paginator.num_pages != 1 %}
-                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
-                    {% endif %}
-                    {% if admins.has_next  %}
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
-                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
-                    {% endif %} 
-                  </ul>
-                </nav>
-
 
 
                 <footer class="footer">

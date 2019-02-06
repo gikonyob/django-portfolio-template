@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.views import View
 
@@ -79,7 +80,7 @@ class Quotes(View):
         email = request.user
         user = User.objects.get(email=email)
         quotes = user.profile.quotes.all()
-        return render(request, 'dashboard.html', {"page": "quotes", "quotes":quotes})
+        return render(request, 'dashboard.html', {"page": "quotes", "quotes": quotes})
 
 class Projects(View):
     def get(self, request):
