@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="{% static 'icon.ico' %}">
+
+    <!-- Messgaes CSS -->
+    <link href="{% static 'assets/css/pages/messages.css' %}" rel="stylesheet">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/basestyle/style.css' %}">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Date Range Picker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/daterangepicker/daterangepicker.css' %}" />
+
+    <!-- Full Calendar Icons -->
+    <link href="{% static 'assets/css/fullcalendar/fullcalendar.css' %}" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}"/>
+     
+    <title>{{title}}</title>
+
+    <style>
+      #delete:hover {
+        cursor: pointer;
+      }
+      .lds-ellipsis {
+            position: relative;
+            width: 65px;
+            height: 17px;
+            top: 3px;
+        }
+        
+        .lds-ellipsis div {
+            position: absolute;
+            top: 3px;
+            width: 11px;
+            height: 13px;
+            border-radius: 50%;
+            background: #fff;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 6px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 6px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 30px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 54px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
+    </style>
+</head>
+  <body>
+      {% csrf_token %}
+      <!-- Pre Loader
+      <div class="loader-wrapper">
+        <div class="spinner">
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="length" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+        </div>
+      </div>
+       Pre Loader-->
+
+      
+       <div class="modal fade" id="delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="delete_user_label">Confirm deletion</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="material-icons ">close</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <p id="delete_user_body"></p>
+            </div>
+            <div class="modal-footer" id="delete_user_footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="modal fade" id="activate_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="activate_user_label">Activate user</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="material-icons ">close</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <p id="activate_user_body"></p>
+            </div>
+            <div class="modal-footer" id="activate_user_footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="deactivate_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deactivate_user_label">Deactivate user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span class="material-icons ">close</span>
+                </button>
+              </div>
+              <div class="modal-body">
+  
+                <p id="deactivate_user_body"></p>
+              </div>
+              <div class="modal-footer" id="deactivate_user_footer">
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" style="width:420px;" role="document">
+            <div class="modal-content">
+              <div class="modal-header px-4">
+                <h5 class="modal-title" id="exampleModalLabel">Add a new administrator</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span class="material-icons ">close</span>
+                </button>
+              </div>
+              <div class="modal-body p-4">
+                  <span id="form_validation" style="color: red; font-size: 0.9rem; display:none"></span>
+                  <div id="registration_message"></div>
+                  <form>
+                    <div class="form-group">
+                      <label for="username">Username<span style="color:red">*</span><span style="color:red; text-transform: none" id="username_validation"></span>
+                        <span id="username_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
+                      <input type="text" class="form-control" id="username" name="username" placeholder="jlogan">
+                    </div>
+                    <div class="form-group">
+                      <label for="first_name">First name <span style="color:red">*</span><span id="first_name_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
+                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="James">
+                    </div>
+                    <div class="form-group">
+                      <label for="middle_name">Middle Name</label>
+                      <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Logan">
+                    </div>
+                    <div class="form-group">
+                      <label for="last_name">Last Name <span style="color:red">*</span><span id="last_name_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
+                      <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Wolverine">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email <span style="color:red">*</span><span style="color:red; text-transform: none" id="email_validation"></span><span id="email_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="jlogan@schoolforthegifted.com">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Password <span style="color:red">*</span><span id="password_strength"></span><p> </p><span style="color:red; text-transform: none" id="password_validation"></span><span id="password_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
+                      <input type="password" class="form-control" min-length="8" onkeyup="check_password(this)" id="signup_password" name="password" placeholder="********">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer px-4">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="sign_up_btn" onclick="signup()">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <section class="wrapper" style="height: 100vh">
+
+
+          <!-- SIDEBAR -->
+          <aside class="sidebar">
+            <nav class="navbar navbar-dark bg-primary" style="background-color: #343a40 !important">
+              <a class="navbar-brand m-0 py-2 brand-title" href="/dashboard/overview"><img src="{% static 'logo.png' %}" style="width: 130px;" /></a>
+              <span></span>
+              <a class="navbar-brand py-2 material-icons toggle-sidebar" href="/dashboard/overview">menu</a>
+            </nav>
+
+            <nav class="navigation" >
+              <ul>        
+                  <li {% if page == 'home' %}class="active"{% endif %}><a href="/dashboard/overview" title="Home"><span class="nav-icon material-icons">home</span> Home</a></li>
+                  <li {% if page == 'skills' %}class="active"{% endif %}><a href="/dashboard/skills" title="Skills"><span class="nav-icon material-icons">style</span> Skills</a></li>
+                  <li {% if page == 'quotes' %}class="active"{% endif %}><a href="/dashboard/quotes" title="Quotes"><span class="nav-icon material-icons">format_quote</span> Quotes</a></li>
+                  <li {% if page == 'projects' %}class="active"{% endif %}><a href="/dashboard/projects" title="Projects"><span class="nav-icon material-icons">folder</span> Projects</a></li>
+                  <li {% if page == 'interests' %}class="active"{% endif %}><a href="/dashboard/interests" title="Interests"><span class="nav-icon material-icons">loyalty</span> Interests</a></li>
+                  <li {% if page == 'fun_facts' %}class="active"{% endif %}><a href="/dashboard/fun_facts" title="Fun Facts"><span class="nav-icon material-icons">mood</span> Fun Facts</a></li>
+                  <li {% if page == 'repositories' %}class="active"{% endif %}><a href="/dashboard/repositories" title="Repositories"><span class="nav-icon material-icons">publish</span> Repositories</a></li>
+                  <li {% if page == 'socials' %}class="active"{% endif %}><a href="/dashboard/socials" title="Socials"><span class="nav-icon material-icons">group</span> Socials</a></li>
+                  <li {% if page == 'articles' %}class="active"{% endif %}><a href="/dashboard/articles" title="Arcticles"><span class="nav-icon material-icons">subject</span> Articles</a></li>
+              </ul>
+            </nav>
+
+          </aside>
+
+
+
+          <!--RIGHT CONTENT AREA-->
+          <div class="content-area">
+
+            <header class="header sticky-top">
+              <nav class="navbar navbar-light bg-white px-sm-4" style="padding: 12px">
+                <a class="navbar-brand py-2 d-md-none  m-0 material-icons toggle-sidebar" href="index.html#">menu</a>
+                <ul class="navbar-nav flex-row ml-auto">
+                  <li class="nav-item notification" >
+                    <a href="index.html#" id="notificationDropdown" data-toggle="dropdown" class="nav-link"><span class="material-icons align-middle">notifications_none</span></a>
+                    <div class="dropdown-menu p-0 dropdown-lg notificationDropdown dropdown-menu-right" aria-labelledby="notificationDropdown">
+                      
+                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
+                          <p class="text-muted mb-1"><small>John Doe Application</small></p>
+                          <div class="progress" style="height:8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                      </a>
+                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
+                          <p class="text-muted mb-1"><small>Akshay Application</small></p>
+                          <div class="progress" style="height:8px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                      </a>
+                      <a class="dropdown-item whitespace-normal py-3 border-bottom" href="index.html#">
+                          <div class="media">
+                            <img class="mr-3 rounded" width="26" src="assets/images/user.png" >
+                            <div class="media-body">
+                              <h6 class="m-0 weight-400">Media heading</h6>
+                              <small class="text-muted">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.</small>
+                            </div>
+                          </div>
+                      </a>
+                      
+                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
+                      <p class="text-muted mb-1"><small>Uploading Documents</small></p>
+                      <div class="progress" style="height:8px;">
+                        <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 40%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      </a>
+                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
+                          <span class="badge badge-pill badge-danger mr-2">Warning</span> <small class="text-muted">Somthing went wrong !</small>
+                      </a>
+                      <button type="button" class="btn btn-light btn-sm btn-block">View All</button>
+                    </div>
+                  </li>
+                  <li class="nav-item ml-sm-3 user-logedin dropdown">
+                    <a href="index.html#" id="userLogedinDropdown" data-toggle="dropdown" class="nav-link weight-400 dropdown-toggle"><img src="/images/{{user.profile.profile_picture}}" class="mr-2 rounded" width="25px">{{user.get_full_name}}</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userLogedinDropdown">
+                        <a class="dropdown-item" href="/dashboard/users/{{user.username}}">My Account</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="/logout">Log Out</a>
+                    </div>
+                  </li>
+                  
+                </ul>
+              </nav>
+            </header>
+
+            {% if page == 'skills' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your skills </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search skills">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No skills were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'quotes' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your Quotes </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search quotes">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No quotes were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'projects' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your Projects </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search projects">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No projects were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'interests' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your Interests </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search interests">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No interests were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'fun_facts' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your Fun Facts </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search facts">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No fun facts were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'repositories' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your repositories </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search repositories">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No repositories were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'socials' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your Socials </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search socials">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No socials were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+            {% if page == 'articles' %}
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <a class="mt-3 d-md-none float-right toggle-controls"><span class="material-icons">keyboard_arrow_down</span></a>
+                    <h1 class="weight-300 h3 title">Your articles </h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                    <input type="search" class="form-control d-inline-block" placeholder="Search articles">
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_user" style="background-color: #6c757d; border-color: #6c757d">Add</button>
+
+                    </div>
+                  </div>
+                </div> 
+
+                
+                <table class="table mb-4 responsive-table table-bordered bg-white">
+                  <thead class="thead-light2">
+                    <tr>
+                      <th scope="col" class="resizeable">Name </th>
+                      <th scope="col" class="resizeable">Username </th>
+                      <th scope="col" class="resizeable">Email </th>
+                      <th scope="col" class="resizeable">Active Status</th>
+                     <th scope="col" width="1">Actions</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for admin in admins %}
+                    <tr id="{{admin.username}}">
+                      <td data-label="Name">
+                          <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.get_full_name}}
+                          </a>
+                      </td>
+                      <td data-label="Username">
+                            <a href="/dashboard/users/{{admin.username}}" class="text-secondary">
+                            {{admin.username}}
+                            </a>
+                      </td>
+                      <td data-label="Email">{{admin.email}}</td>
+                      <td data-label="Active Status">
+                          {% if admin.is_active %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: #4B89FC; color: white; border-color: #4B89FC" onclick="active_modal('{{admin.username}}', 'active', '{{admin.first_name}}')">Activated</button>
+                          {% else %}
+                            <button class="btn btn-primary btn-sm" id="{{admin.username}}_active" style="background-color: red; color: white; border-color: red" onclick="active_modal('{{admin.username}}', 'inactive', '{{admin.first_name}}')">Not Activated</button>
+                          {% endif %}
+                      </td>
+                      
+                      <td data-label="Actions" class="text-md-center dropdown dropleft">
+                        <a href="static-data-grid.html" class="text-muted" id="actionDropdown" data-toggle="dropdown"><span class="material-icons md-20 align-middle">more_vert</span></a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actionDropdown">
+                           
+                            <a class="dropdown-item" id="delete" onclick="get_delete_modal('{{admin.username}}', '{{admin.first_name}}')">Delete</a>
+                            
+                        </div>
+                      </td>
+                      
+                    </tr> 
+                    {% endfor %}
+                    {% if admins|length == 0 %}
+                    <tr>
+                        <td colspan="5">No articles were found.</td>
+                    </tr>
+                    {% endif %}
+                                       
+                  </tbody>
+                </table>
+
+                
+                <nav aria-label="Page navigation example">
+                {% if admins.paginator.num_pages != 1 %}
+                  <form class="form-inline float-left">
+                    <label class="my-1 mr-2 d-none d-md-block" for="show-data">Showing {{admins.number}} out of {{admins.paginator.num_pages}}</label>
+                    <select class="form-control" id="show-data">
+                      <option selected value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="all">all</option>
+                    </select>
+                  </form>
+                  {% endif %}
+                  <ul class="pagination mt-3 justify-content-end">
+                    {% if admins.has_previous %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if admins.paginator.num_pages != 1 %}
+                        <li class="page-item active"><a class="page-link" href="static-data-grid.html#">{{admins.number}}</a></li>
+                    {% endif %}
+                    {% if admins.has_next  %}
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">{{admins.next_page_number}}</a></li>
+                        <li class="page-item"><a class="page-link" href="static-data-grid.html#">Next</a></li>
+                    {% endif %} 
+                  </ul>
+                </nav>
+
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+                
+
+
+            </div>
+            {% endif %}
+
+          </div>
+
+
+      </section>
+
+      <script>
+      
+          function signup(){
+            var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            var registration_message = document.getElementById("registration_message");
+            registration_message.innerHTML = "";
+            var sign_up_btn = document.getElementById("sign_up_btn");
+            sign_up_btn.innerHTML = "<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>";
+            var form_validation = document.getElementById("form_validation");
+            var email_validation = document.getElementById("email_validation");
+            var username_validation = document.getElementById("username_validation");
+            var password_validation = document.getElementById("password_validation");
+            form_validation.innerHTML = "";
+            email_validation.innerHTML = "";
+            username_validation.innerHTML = "";
+            password_validation.innerHTML = "";
+            var first_name_input = document.getElementById("first_name").value;
+            var middle_name_input = document.getElementById("middle_name").value;
+            var last_name_input = document.getElementById("last_name").value;
+            var username_input = document.getElementById("username").value;
+            var email_input = document.getElementById("email").value;
+            var password_input = document.getElementById("signup_password");
+            var min_length = parseInt(password_input.getAttribute("min-length"));
+            var first_name_error = document.getElementById("first_name_error");
+            var last_name_error = document.getElementById("last_name_error");
+            var username_error = document.getElementById("username_error");
+            var email_error = document.getElementById("email_error");
+            var password_error = document.getElementById("password_error");
+            form_validation.style.display = "none";
+            first_name_error.style.display = "none";
+            last_name_error.style.display = "none";
+            username_error.style.display = "none";
+            email_error.style.display = "none";
+            password_error.style.display = "none";
+            if (first_name_input==null || first_name_input=="" || last_name_input==null || last_name_input=="" || username_input==null || username_input=="" || email_input==null || email_input=="" || password_input==null || password_input==""){
+                form_validation.innerHTML = "Please fill all the fields that have a (*)";
+                form_validation.style.display = "block";
+                sign_up_btn.innerHTML = "Sign up";
+                return false;
+            } else {
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_input)){
+                    if (!/\s/.test(username_input)) {
+                        if (password_input.value.length >= min_length) {
+                              data = {
+                                  "first_name": first_name_input,
+                                  "middle_name": middle_name_input,
+                                  "last_name": last_name_input,
+                                  "username": username_input,
+                                  "email": email_input,
+                                  "password": password_input.value,
+                                  "csrfmiddlewaretoken": csrf_token
+                              };
+                              if(navigator.onLine === true){
+                                $.post("{{url}}/dashboard/users/{{user.username}}/admins/register", data,
+                                  function(response, status){
+                                      if(status === "success"){
+                                          if(response.status === "success"){
+                                              registration_message.innerHTML = '<div class="alert alert-success alert-st-one" role="alert" style="border-radius:7px; background-color: #4CAF50; border-color: #4CAF50; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
+                                              <p style="color: white; font-size: 15px; margin-bottom: 2p;">' + response.message + '</p></div>';
+                                              sign_up_btn.innerHTML = "Sign up";
+                                              form_validation.style.display = "none";
+                                              return true;
+                                          }else if(response.status === "error"){
+                                              registration_message.innerHTML = '<div class="alert alert-danger alert-mg-b alert-st-four" role="alert" style="border-radius: 7px; background-color: red; border-color: red; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px;text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
+                                              <p style="color: white; font-size: 15px; margin-bottom: 2p;">' + response.message + '</p></div>';
+                                              sign_up_btn.innerHTML = "Sign up";
+                                              form_validation.style.display = "none";
+                                              return true;
+                                          }else if(response.status === "form_error"){
+                                              var form = JSON.parse(response.form);
+                                              if (typeof form.first_name !== 'undefined') {
+                                                  first_name_error.innerHTML = form.first_name[0].message;
+                                                  first_name_error.style.display = "block";
+                                                  sign_up_btn.innerHTML = "Sign up";
+                                              }
+                                              if(typeof form.last_name !== 'undefined') {
+                                                  last_name_error.innerHTML = form.last_name[0].message;
+                                                  last_name_error.style.display = "block";
+                                                  sign_up_btn.innerHTML = "Sign up";
+                                              }
+                                              if(typeof form.username !== 'undefined') {
+                                                  username_error.innerHTML = form.username[0].message;
+                                                  username_error.style.display = "block";
+                                                  sign_up_btn.innerHTML = "Sign up";
+                                              }
+                                              if(typeof form.email !== 'undefined'){
+                                                  email_error.innerHTML = form.email[0].message;
+                                                  email_error.style.display = "block";
+                                                  sign_up_btn.innerHTML = "Sign up";
+                                              }
+                                              if(typeof form.password !== 'undefined'){
+                                                  password_error.innerHTML = form.password[0].message;
+                                                  password_error.style.display = "block";
+                                                  sign_up_btn.innerHTML = "Sign up";
+                                              } 
+                                          }
+                                      }
+                              });
+                          } else {
+                              registration_message.innerHTML = '<div class="alert alert-danger alert-mg-b alert-st-four" role="alert" style="border-radius: 7px; background-color: red; border-color: red; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px;text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
+                                              <p style="color: white; font-size: 15px; margin-bottom: 2p;">You are offline</p></div>';
+                              sign_up_btn.innerHTML = "Sign up";
+                              return false;
+                          }
+                      } else {
+                          password_validation.innerHTML = "Password should have at least 8 characters. " + String(min_length - password_input.value.length) + " more characters required";
+                          sign_up_btn.innerHTML = "Sign up";
+                          return false;
+                      }
+                  }else {
+                      username_validation.innerHTML = "Username format was invalid. Do not include any spaces";
+                      sign_up_btn.innerHTML = "Sign up";
+                      return false;
+                  }
+              } else {
+                  email_validation.innerHTML = "Email format was invalid. Try a format like this ******@*****.***";
+                  sign_up_btn.innerHTML = "Sign up";
+                  return false;
+              }
+          }
+        }
+
+        function check_password(input){
+            var min_length = parseInt(input.getAttribute("min-length"));
+            var password_strength = document.getElementById("password_strength");
+            var min_length_plus_five = (min_length + 5);
+            if(input.value.length == 0){
+                input.style.borderColor = "rgba(73,80,87, 0.3)";
+                input.style.borderWidth = "0.5px";
+                password_strength.style = "color: #4CAF50; text-transform: none";
+                password_strength.innerHTML = "";
+            }else if (input.value.length > 0 && input.value.length < min_length) {
+                input.style.borderColor = "red";
+                input.style.borderWidth = "2px";
+                password_strength.style = "color: red; text-transform: none";
+                password_strength.innerHTML = "Strength: Weak";
+            } else if (input.value.length >= min_length && input.value.length < min_length_plus_five) {
+                input.style.borderColor = "#4B89FC";
+                input.style.borderWidth = "2px";
+                password_strength.style = "color: #4B89FC; text-transform: none";
+                password_strength.innerHTML = "Strength: Medium";
+            } else if(input.value.length >= min_length_plus_five) {
+                input.style.borderColor = "#4CAF50";
+                input.style.borderWidth = "2px";
+                password_strength.style = "color: #4CAF50; text-transform: none";
+                password_strength.innerHTML = "Strength: Strong";
+            }
+        }
+      
+      
+            function get_delete_modal(username, first_name){
+              document.getElementById("delete_user_body").innerHTML = "<p> Are you sure you want to delete " + first_name + "?";
+              document.getElementById("delete_user_footer").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>\
+              <button type="button" class="btn btn-danger" onclick="delete_user(\'' + username + '\')">Delete</button>';
+              $("#delete_user").modal("toggle");
+            }
+
+            function delete_user(username){
+              var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+              data = {
+                "csrfmiddlewaretoken": csrf_token
+              };
+              $("#delete_user").modal("toggle");
+              $.post("{{url}}/dashboard/users/" + username + "/delete", data,
+                function(response, status){
+                  if(status === "success"){
+                    if(response.status === "success"){
+                      var admin_tr = document.getElementById(username);
+                      admin_tr.parentNode.removeChild(admin_tr);
+                    }
+                  }
+              });
+            }
+      
+
+      
+            function active_modal(username, state, first_name){
+              if(state === 'active'){
+                  document.getElementById("deactivate_user_body").innerHTML = "<p> Are you sure you want to deactivate " + first_name + "?</p>";
+                  document.getElementById("deactivate_user_footer").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>\
+                  <button type="button" class="btn btn-danger" onclick="deactivate_user(\'' + username + '\', \''+ first_name + '\')">Deactivate</button>';
+                  $("#deactivate_user").modal("toggle");
+              }else if(state === 'inactive'){
+                  document.getElementById("activate_user_body").innerHTML = "<p> Are you sure you want to activate " + first_name + "?</p>";
+                  document.getElementById("activate_user_footer").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>\
+                  <button type="button" class="btn btn-primary" onclick="activate_user(\'' + username + '\', \''+ first_name + '\')">Activate</button>';
+                  $("#activate_user").modal("toggle");
+              }
+            }
+
+            function activate_user(username, first_name){
+              var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+              data = {
+                "status": "True",
+                "csrfmiddlewaretoken": csrf_token
+              };
+              $("#activate_user").modal("toggle");
+              $.post("{{url}}/dashboard/users/" + username + "/active", data,
+                function(response, status){
+                  if(status === "success"){
+                    if(response.status === "success"){
+                      var elem = document.getElementById(username + "_active");
+                      elem.innerHTML = "Activated";
+                      elem.style.borderColor = "#4B89FC";
+                      elem.style.backgroundColor = "#4B89FC";
+                      elem.setAttribute("onclick", "active_modal(\'" + username + "\' , 'active', \'" + first_name + "\')");
+                    }
+                  }
+              });
+            }
+
+            function deactivate_user(username, first_name){
+              var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+              data = {
+                "status": "False",
+                "csrfmiddlewaretoken": csrf_token
+              };
+              $("#deactivate_user").modal("toggle");
+              $.post("{{url}}/dashboard/users/" + username + "/active", data,
+                function(response, status){
+                  if(status === "success"){
+                    if(response.status === "success"){
+                      var elem = document.getElementById(username + "_active");
+                      elem.innerHTML = "Not Activated";
+                      elem.style.borderColor = "red";
+                      elem.style.backgroundColor = "red";
+                      elem.setAttribute("onclick", "active_modal(\'" + username + "\', 'inactive', \'" + first_name + "\')");
+                    }
+                  }
+              });
+            }
+     
+      </script>
+
+      <!-- ChartJS -->
+      <script src="{% static 'assets/js/chartjs/Chart.js' %}"></script>
+      <script src="{% static 'assets/js/chartjs/utils.js' %}"></script>
+      
+      <script src="{% static 'assets/js/lib/moment.min.js' %}"></script>
+      <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script>
+      <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap/bootstrap.min.js' %}"></script>
+      <script src="{% static 'assets/js/chosen-js/chosen.jquery.js' %}"></script>
+      <script src="{% static 'assets/js/fullcalendar/fullcalendar.js' %}"></script>
+      
+      <script src="{% static 'assets/js/daterangepicker/daterangepicker.min.js' %}"></script>
+      <script src="{% static 'assets/js/custom.js' %}"></script>
+
+      <script src="{% static 'assets/js/pages/dashboard.script.js' %}"></script>
+
+
+          <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56821827-7"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-56821827-7');
+      </script>
+
+  </body>
+</html>

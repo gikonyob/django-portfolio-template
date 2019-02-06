@@ -65,4 +65,60 @@ class Logout(View):
 
 class Dashboard(View):
     def get(self, request):
-        pass
+        return render(request, 'dashboard.html', {"page": "home"})
+
+class Skills(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        skills = user.profile.skills.all()
+        return render(request, 'dashboard.html', {"page": "skills", "skills": skills})
+
+class Quotes(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        quotes = user.profile.quotes.all()
+        return render(request, 'dashboard.html', {"page": "quotes", "quotes":quotes})
+
+class Projects(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        projects = user.profile.projects.all()
+        return render(request, 'dashboard.html', {"page": "projects", "projects": projects})
+
+class Interests(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        interests = user.profile.interests.all()
+        return render(request, 'dashboard.html', {"page": "interests", "interests": interests})
+
+class FunFacts(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        fun_facts = user.profile.fun_facts.all()
+        return render(request, 'dashboard.html', {"page": "fun_facts", "fun_facts": fun_facts})
+
+class Repositories(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        repositories = user.profile.repositories.all()
+        return render(request, 'dashboard.html', {"page": "repositories", "repositories": repositories})
+
+class Socials(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        socials = user.profile.socials.all()
+        return render(request, 'dashboard.html', {"page": "socials", "socials": socials})
+
+class Articles(View):
+    def get(self, request):
+        email = request.user
+        user = User.objects.get(email=email)
+        articles = user.profile.articles.all()
+        return render(request, 'dashboard.html', {"page": "articles", "articles": articles})
