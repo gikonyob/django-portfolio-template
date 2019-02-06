@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     {% load static %}
+    {% load extra_tags %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -93,6 +94,10 @@
                 transform: translate(24px, 0);
             }
         }
+        @font-face {
+          font-family: Fonarto;
+          src: url({% static 'assets/fonts/Fonarto.ttf' %});
+      }
     </style>
 </head>
   <body>
@@ -117,7 +122,7 @@
        Pre Loader-->
 
       
-       <div class="modal fade" id="delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal fade" id="delete_{{page|cut:''}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -135,46 +140,8 @@
           </div>
         </div>
       </div>
-
-       <div class="modal fade" id="activate_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="activate_user_label">Activate user</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span class="material-icons ">close</span>
-              </button>
-            </div>
-            <div class="modal-body">
-
-              <p id="activate_user_body"></p>
-            </div>
-            <div class="modal-footer" id="activate_user_footer">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="deactivate_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deactivate_user_label">Deactivate user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span class="material-icons ">close</span>
-                </button>
-              </div>
-              <div class="modal-body">
-  
-                <p id="deactivate_user_body"></p>
-              </div>
-              <div class="modal-footer" id="deactivate_user_footer">
-              </div>
-            </div>
-          </div>
-        </div>
       
-        <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="add_{{page|cut:''}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" style="width:420px;" role="document">
             <div class="modal-content">
               <div class="modal-header px-4">
@@ -228,7 +195,7 @@
           <!-- SIDEBAR -->
           <aside class="sidebar">
             <nav class="navbar navbar-dark bg-primary" style="background-color: #343a40 !important">
-              <a class="navbar-brand m-0 py-2 brand-title" href="/dashboard/overview"><img src="{% static 'logo.png' %}" style="width: 130px;" /></a>
+              <a class="navbar-brand m-0 py-2 brand-title" href="/dashboard/overview"><span style="font-family: Fonarto; width: 130px">Portfolio Dash</span></a>
               <span></span>
               <a class="navbar-brand py-2 material-icons toggle-sidebar" href="/dashboard/overview">menu</a>
             </nav>
@@ -258,44 +225,6 @@
               <nav class="navbar navbar-light bg-white px-sm-4" style="padding: 12px">
                 <a class="navbar-brand py-2 d-md-none  m-0 material-icons toggle-sidebar" href="index.html#">menu</a>
                 <ul class="navbar-nav flex-row ml-auto">
-                  <li class="nav-item notification" >
-                    <a href="index.html#" id="notificationDropdown" data-toggle="dropdown" class="nav-link"><span class="material-icons align-middle">notifications_none</span></a>
-                    <div class="dropdown-menu p-0 dropdown-lg notificationDropdown dropdown-menu-right" aria-labelledby="notificationDropdown">
-                      
-                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
-                          <p class="text-muted mb-1"><small>John Doe Application</small></p>
-                          <div class="progress" style="height:8px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                      </a>
-                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
-                          <p class="text-muted mb-1"><small>Akshay Application</small></p>
-                          <div class="progress" style="height:8px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                      </a>
-                      <a class="dropdown-item whitespace-normal py-3 border-bottom" href="index.html#">
-                          <div class="media">
-                            <img class="mr-3 rounded" width="26" src="assets/images/user.png" >
-                            <div class="media-body">
-                              <h6 class="m-0 weight-400">Media heading</h6>
-                              <small class="text-muted">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.</small>
-                            </div>
-                          </div>
-                      </a>
-                      
-                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
-                      <p class="text-muted mb-1"><small>Uploading Documents</small></p>
-                      <div class="progress" style="height:8px;">
-                        <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 40%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      </a>
-                      <a class="dropdown-item py-3 border-bottom" href="index.html#">
-                          <span class="badge badge-pill badge-danger mr-2">Warning</span> <small class="text-muted">Somthing went wrong !</small>
-                      </a>
-                      <button type="button" class="btn btn-light btn-sm btn-block">View All</button>
-                    </div>
-                  </li>
                   <li class="nav-item ml-sm-3 user-logedin dropdown">
                     <a href="index.html#" id="userLogedinDropdown" data-toggle="dropdown" class="nav-link weight-400 dropdown-toggle"><img src="/images/{{user.profile.profile_picture}}" class="mr-2 rounded" width="25px">{{user.get_full_name}}</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userLogedinDropdown">
@@ -373,7 +302,7 @@
 
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -445,7 +374,7 @@
 
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -517,7 +446,7 @@
 
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -582,7 +511,7 @@
                 </table>
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -602,7 +531,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search facts">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_fact" style="background-color: #6c757d; border-color: #6c757d">Add fact</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_fun_fact" style="background-color: #6c757d; border-color: #6c757d">Add fact</button>
 
                     </div>
                   </div>
@@ -653,7 +582,7 @@
                 </table>
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -673,7 +602,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search repositories">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_repositories" style="background-color: #6c757d; border-color: #6c757d">Add repository</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_repositorie" style="background-color: #6c757d; border-color: #6c757d">Add repository</button>
 
                     </div>
                   </div>
@@ -725,7 +654,7 @@
 
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -795,7 +724,7 @@
                 </table>
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -861,7 +790,7 @@
 
 
                 <footer class="footer">
-                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                  <p class="text-muted m-0"><small class="float-right"> Made by Brian Gikonyo </small><small>Copyright © {% now 'Y' %}</small></p>
                 </footer>
                 
 
@@ -1123,17 +1052,6 @@
       <script src="{% static 'assets/js/custom.js' %}"></script>
 
       <script src="{% static 'assets/js/pages/dashboard.script.js' %}"></script>
-
-
-          <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56821827-7"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-56821827-7');
-      </script>
 
   </body>
 </html>
