@@ -26,6 +26,8 @@
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-tagsinput.css' %}"/>
      
     <title>{{title}}</title>
 
@@ -122,7 +124,7 @@
        Pre Loader-->
 
       
-       <div class="modal fade" id="delete_{{page|cut:''}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal fade" id="delete_{{page|singular:''}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -135,55 +137,91 @@
 
               <p id="delete_user_body"></p>
             </div>
-            <div class="modal-footer" id="delete_user_footer">
+            <div class="modal-footer" id="delete_item_footer">
             </div>
           </div>
         </div>
       </div>
       
-        <div class="modal fade" id="add_{{page|cut:''}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="add_{{page|singular:''}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" style="width:420px;" role="document">
             <div class="modal-content">
               <div class="modal-header px-4">
-                <h5 class="modal-title" id="exampleModalLabel">Add a new administrator</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add a new {{page|singular:''|cut:'_'}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span class="material-icons ">close</span>
                 </button>
               </div>
-              <div class="modal-body p-4">
-                  <span id="form_validation" style="color: red; font-size: 0.9rem; display:none"></span>
-                  <div id="registration_message"></div>
-                  <form>
+              <div class="modal-body p-4">   
+                  <form id="add_form">
+                    <input type="hidden" class="form-control" id="page" name="page" value={{page}}>
+                    {% if page == 'skills' or page == 'interests' or page == 'projects' or page == 'socials'%}
                     <div class="form-group">
-                      <label for="username">Username<span style="color:red">*</span><span style="color:red; text-transform: none" id="username_validation"></span>
-                        <span id="username_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
-                      <input type="text" class="form-control" id="username" name="username" placeholder="jlogan">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    {% endif %}
+                    {% if page == 'repositories' %}
+                    <div class="form-group">
+                      <label for="repository_name">Repository Name</label>
+                      <input type="text" class="form-control" id="repository_name" name="repository_name" placeholder="username/repository">
+                    </div>
+                    {% endif %}
+                    {% if page == 'skills' %}
+                    <div class="form-group">
+                      <label for="percentage">Percentage</label>
+                      <input type="text" class="form-control" id="percentage" name="percentage">
+                    </div>
+                    {% endif %}
+                    {% if page == 'articles' %}
+                    <div class="form-group">
+                      <label for="title">Title</label>
+                      <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    {% endif %}
+                    {% if page == 'quotes' %}
+                    <div class="form-group">
+                      <label for="quote">Quote</label>
+                      <input type="text" class="form-control" id="quote" name="quote">
                     </div>
                     <div class="form-group">
-                      <label for="first_name">First name <span style="color:red">*</span><span id="first_name_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
-                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="James">
+                        <label for="quoter">Quoter</label>
+                        <input type="text" class="form-control" id="quoter" name="quoter">
+                      </div>
+                    {% endif %}
+                    {% if page == 'fun_facts' %}
+                    <div class="form-group">
+                      <label for="fact">Fact</label>
+                      <input type="text" class="form-control" id="fact" name="fact">
                     </div>
                     <div class="form-group">
-                      <label for="middle_name">Middle Name</label>
-                      <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Logan">
-                    </div>
+                        <label for="by_who">By</label>
+                        <input type="text" class="form-control" id="by_who" name="by_who">
+                      </div>
+                    {% endif %}
+                    {% if page == 'projects' or page == 'repositories' or page == 'socials'%}
+                      <div class="form-group">
+                        <label for="site">Site </label>
+                        <input type="url" class="form-control" id="site" name="site" placeholder="http://www.website.com">
+                      </div>
+                    {% endif %} 
+                      {% if page == 'projects' or page == 'articles' or page == 'repositories' or page == 'socials'%}
                     <div class="form-group">
-                      <label for="last_name">Last Name <span style="color:red">*</span><span id="last_name_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
-                      <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Wolverine">
+                      <label for="url">Url </label>
+                      <input type="url" class="form-control" id="url" name="url" placeholder="http://www.website.com/path/morepath">
                     </div>
+                    {% endif %}
+                    {% if page == 'projects' %}
                     <div class="form-group">
-                      <label for="email">Email <span style="color:red">*</span><span style="color:red; text-transform: none" id="email_validation"></span><span id="email_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
-                      <input type="email" class="form-control" id="email" name="email" placeholder="jlogan@schoolforthegifted.com">
+                      <label for="technologies">Technologies</label>
+                      <input type="text" class="form-control" id="technologies" name="technologies" data-role="tagsinput">
                     </div>
-                    <div class="form-group">
-                      <label for="">Password <span style="color:red">*</span><span id="password_strength"></span><p> </p><span style="color:red; text-transform: none" id="password_validation"></span><span id="password_error" style="color: red; text-transform: none; font-size: 0.8rem; padding-left: 10px; display:none"></span></label>
-                      <input type="password" class="form-control" min-length="8" onkeyup="check_password(this)" id="signup_password" name="password" placeholder="********">
-                    </div>
+                    {% endif %}
                   </form>
                 </div>
                 <div class="modal-footer px-4">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="sign_up_btn" onclick="signup()">Add</button>
+                  <button type="button" class="btn btn-primary" id="add_item_btn" onclick="add_item()">Add</button>
                 </div>
               </div>
             </div>
@@ -602,7 +640,7 @@
                     <div class="controls d-flex justify-content-center justify-content-md-end">
                     <input type="search" class="form-control d-inline-block" placeholder="Search repositories">
                     
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_repositorie" style="background-color: #6c757d; border-color: #6c757d">Add repository</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add_repository" style="background-color: #6c757d; border-color: #6c757d">Add repository</button>
 
                     </div>
                   </div>
@@ -805,165 +843,40 @@
 
       <script>
       
-          function signup(){
+          function add_item(){
             var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-            var registration_message = document.getElementById("registration_message");
-            registration_message.innerHTML = "";
-            var sign_up_btn = document.getElementById("sign_up_btn");
-            sign_up_btn.innerHTML = "<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>";
-            var form_validation = document.getElementById("form_validation");
-            var email_validation = document.getElementById("email_validation");
-            var username_validation = document.getElementById("username_validation");
-            var password_validation = document.getElementById("password_validation");
-            form_validation.innerHTML = "";
-            email_validation.innerHTML = "";
-            username_validation.innerHTML = "";
-            password_validation.innerHTML = "";
-            var first_name_input = document.getElementById("first_name").value;
-            var middle_name_input = document.getElementById("middle_name").value;
-            var last_name_input = document.getElementById("last_name").value;
-            var username_input = document.getElementById("username").value;
-            var email_input = document.getElementById("email").value;
-            var password_input = document.getElementById("signup_password");
-            var min_length = parseInt(password_input.getAttribute("min-length"));
-            var first_name_error = document.getElementById("first_name_error");
-            var last_name_error = document.getElementById("last_name_error");
-            var username_error = document.getElementById("username_error");
-            var email_error = document.getElementById("email_error");
-            var password_error = document.getElementById("password_error");
-            form_validation.style.display = "none";
-            first_name_error.style.display = "none";
-            last_name_error.style.display = "none";
-            username_error.style.display = "none";
-            email_error.style.display = "none";
-            password_error.style.display = "none";
-            if (first_name_input==null || first_name_input=="" || last_name_input==null || last_name_input=="" || username_input==null || username_input=="" || email_input==null || email_input=="" || password_input==null || password_input==""){
-                form_validation.innerHTML = "Please fill all the fields that have a (*)";
-                form_validation.style.display = "block";
-                sign_up_btn.innerHTML = "Sign up";
-                return false;
-            } else {
-                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_input)){
-                    if (!/\s/.test(username_input)) {
-                        if (password_input.value.length >= min_length) {
-                              data = {
-                                  "first_name": first_name_input,
-                                  "middle_name": middle_name_input,
-                                  "last_name": last_name_input,
-                                  "username": username_input,
-                                  "email": email_input,
-                                  "password": password_input.value,
-                                  "csrfmiddlewaretoken": csrf_token
-                              };
-                              if(navigator.onLine === true){
-                                $.post("{{url}}/dashboard/users/{{user.username}}/admins/register", data,
-                                  function(response, status){
-                                      if(status === "success"){
-                                          if(response.status === "success"){
-                                              registration_message.innerHTML = '<div class="alert alert-success alert-st-one" role="alert" style="border-radius:7px; background-color: #4CAF50; border-color: #4CAF50; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
-                                              <p style="color: white; font-size: 15px; margin-bottom: 2p;">' + response.message + '</p></div>';
-                                              sign_up_btn.innerHTML = "Sign up";
-                                              form_validation.style.display = "none";
-                                              return true;
-                                          }else if(response.status === "error"){
-                                              registration_message.innerHTML = '<div class="alert alert-danger alert-mg-b alert-st-four" role="alert" style="border-radius: 7px; background-color: red; border-color: red; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px;text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
-                                              <p style="color: white; font-size: 15px; margin-bottom: 2p;">' + response.message + '</p></div>';
-                                              sign_up_btn.innerHTML = "Sign up";
-                                              form_validation.style.display = "none";
-                                              return true;
-                                          }else if(response.status === "form_error"){
-                                              var form = JSON.parse(response.form);
-                                              if (typeof form.first_name !== 'undefined') {
-                                                  first_name_error.innerHTML = form.first_name[0].message;
-                                                  first_name_error.style.display = "block";
-                                                  sign_up_btn.innerHTML = "Sign up";
-                                              }
-                                              if(typeof form.last_name !== 'undefined') {
-                                                  last_name_error.innerHTML = form.last_name[0].message;
-                                                  last_name_error.style.display = "block";
-                                                  sign_up_btn.innerHTML = "Sign up";
-                                              }
-                                              if(typeof form.username !== 'undefined') {
-                                                  username_error.innerHTML = form.username[0].message;
-                                                  username_error.style.display = "block";
-                                                  sign_up_btn.innerHTML = "Sign up";
-                                              }
-                                              if(typeof form.email !== 'undefined'){
-                                                  email_error.innerHTML = form.email[0].message;
-                                                  email_error.style.display = "block";
-                                                  sign_up_btn.innerHTML = "Sign up";
-                                              }
-                                              if(typeof form.password !== 'undefined'){
-                                                  password_error.innerHTML = form.password[0].message;
-                                                  password_error.style.display = "block";
-                                                  sign_up_btn.innerHTML = "Sign up";
-                                              } 
-                                          }
-                                      }
-                              });
-                          } else {
-                              registration_message.innerHTML = '<div class="alert alert-danger alert-mg-b alert-st-four" role="alert" style="border-radius: 7px; background-color: red; border-color: red; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px;text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">\
-                                              <p style="color: white; font-size: 15px; margin-bottom: 2p;">You are offline</p></div>';
-                              sign_up_btn.innerHTML = "Sign up";
-                              return false;
-                          }
-                      } else {
-                          password_validation.innerHTML = "Password should have at least 8 characters. " + String(min_length - password_input.value.length) + " more characters required";
-                          sign_up_btn.innerHTML = "Sign up";
-                          return false;
-                      }
-                  }else {
-                      username_validation.innerHTML = "Username format was invalid. Do not include any spaces";
-                      sign_up_btn.innerHTML = "Sign up";
-                      return false;
-                  }
-              } else {
-                  email_validation.innerHTML = "Email format was invalid. Try a format like this ******@*****.***";
-                  sign_up_btn.innerHTML = "Sign up";
-                  return false;
-              }
-          }
-        }
-
-        function check_password(input){
-            var min_length = parseInt(input.getAttribute("min-length"));
-            var password_strength = document.getElementById("password_strength");
-            var min_length_plus_five = (min_length + 5);
-            if(input.value.length == 0){
-                input.style.borderColor = "rgba(73,80,87, 0.3)";
-                input.style.borderWidth = "0.5px";
-                password_strength.style = "color: #4CAF50; text-transform: none";
-                password_strength.innerHTML = "";
-            }else if (input.value.length > 0 && input.value.length < min_length) {
-                input.style.borderColor = "red";
-                input.style.borderWidth = "2px";
-                password_strength.style = "color: red; text-transform: none";
-                password_strength.innerHTML = "Strength: Weak";
-            } else if (input.value.length >= min_length && input.value.length < min_length_plus_five) {
-                input.style.borderColor = "#4B89FC";
-                input.style.borderWidth = "2px";
-                password_strength.style = "color: #4B89FC; text-transform: none";
-                password_strength.innerHTML = "Strength: Medium";
-            } else if(input.value.length >= min_length_plus_five) {
-                input.style.borderColor = "#4CAF50";
-                input.style.borderWidth = "2px";
-                password_strength.style = "color: #4CAF50; text-transform: none";
-                password_strength.innerHTML = "Strength: Strong";
+            var fields = $( "#add_form" ).serializeArray();
+            var data = {
+              "csrfmiddlewaretoken": csrf_token
+              };
+            for (var i=0; i < fields.length; i++) {
+              data[fields[i].name] = fields[i].value;
             }
-        }
+            $("#add_form").modal("toggle");
+              $.post("{{url}}/dashboard/items/add", data,
+                function(response, status){
+                  if(status === "success"){
+                    if(response.status === "success"){
+                      var admin_tr = document.getElementById(username);
+                      admin_tr.parentNode.removeChild(admin_tr);
+                    }
+                  }
+              });
+        }      
       
-      
-            function get_delete_modal(username, first_name){
+            function get_delete_modal(id, name, category){
               document.getElementById("delete_user_body").innerHTML = "<p> Are you sure you want to delete " + first_name + "?";
               document.getElementById("delete_user_footer").innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>\
-              <button type="button" class="btn btn-danger" onclick="delete_user(\'' + username + '\')">Delete</button>';
+              <button type="button" class="btn btn-danger" onclick="delete_item(\'' + id + '\', \'' + category + '\')">Delete</button>';
               $("#delete_user").modal("toggle");
             }
 
-            function delete_user(username){
+            function delete_item(id, category){
               var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
               data = {
-                "csrfmiddlewaretoken": csrf_token
+                "csrfmiddlewaretoken": csrf_token,
+                "id": id,
+                "category": category
               };
               $("#delete_user").modal("toggle");
               $.post("{{url}}/dashboard/users/" + username + "/delete", data,
@@ -1044,6 +957,7 @@
       <script src="{% static 'assets/js/lib/moment.min.js' %}"></script>
       <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script>
       <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap-tagsinput.js' %}"></script>
       <script src="{% static 'assets/js/bootstrap/bootstrap.min.js' %}"></script>
       <script src="{% static 'assets/js/chosen-js/chosen.jquery.js' %}"></script>
       <script src="{% static 'assets/js/fullcalendar/fullcalendar.js' %}"></script>
