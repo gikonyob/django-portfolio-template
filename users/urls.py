@@ -16,4 +16,5 @@ urlpatterns = [
     path('dashboard/articles', login_required(user_views.Articles.as_view(), login_url='landing'), name='dashboard_articles'),
     path('dashboard/items/add', login_required(user_views.AddItem.as_view(), login_url='landing'), name='dashboard_add'),
     path('dashboard/items/delete', login_required(user_views.DeleteItem.as_view(), login_url='landing'), name='dashboard_delete'),
+    path('dashboard/users/<username>', login_required(user_views.GetProfile.as_view(), login_url='landing'), name='user_profile'),
 ]

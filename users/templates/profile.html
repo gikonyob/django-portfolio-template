@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    {% load extra_tags %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Cosmo - Responsive Dashboard Admin Template">
+    <meta name="author" content="Akshay Kumar">
+
+    <link rel="icon" href="{% static 'icon.ico' %}">
+
+    <!-- Messgaes CSS -->
+    <link href="{% static 'assets/css/pages/messages.css' %}" rel="stylesheet">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/basestyle/style.css' %}">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Date Range Picker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/daterangepicker/daterangepicker.css' %}" />
+
+    <!-- Full Calendar Icons -->
+    <link href="{% static 'assets/css/fullcalendar/fullcalendar.css' %}" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}"/>
+     
+    <title>{{title}}</title>
+    <style>
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 23px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:disabled + .slider {
+            background-color:#C0C0C0;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 30px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .contain {
+            position: relative;
+            width: 100%;
+        }
+
+        .contain:hover {
+            cursor: pointer;
+        }
+
+        .image {
+            opacity: 1;
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .middle {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%)
+        }
+
+        .contain:hover .image {
+            opacity: 0.3;
+        }
+
+        .contain:hover .middle {
+            opacity: 1;
+        }
+
+        .text {
+            background-color: rgba(255, 255, 255, 0);
+            color: black;
+            font-size: 16px;
+            padding: 16px 32px;
+        }
+    </style>
+    
+</head>
+  <body>
+      {% csrf_token %}
+
+      <!-- Pre Loader
+      <div class="loader-wrapper">
+        <div class="spinner">
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="length" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+        </div>
+      </div>
+       Pre Loader-->
+
+
+
+      <section class="wrapper">
+
+
+          <!-- SIDEBAR -->
+          <aside class="sidebar">
+                <nav class="navbar navbar-dark bg-primary" style="background-color: #343a40 !important">
+                  <a class="navbar-brand m-0 py-2 brand-title" href="/dashboard/overview"><span style="font-family: Fonarto; width: 130px">Portfolio Dash</span></a>
+                  <span></span>
+                  <a class="navbar-brand py-2 material-icons toggle-sidebar" href="/dashboard/overview">menu</a>
+                </nav>
+    
+                <nav class="navigation" >
+                  <ul>        
+                      <li {% if page == 'home' %}class="active"{% endif %}><a href="/dashboard/overview" title="Home"><span class="nav-icon material-icons">home</span> Home</a></li>
+                      <li {% if page == 'skills' %}class="active"{% endif %}><a href="/dashboard/skills" title="Skills"><span class="nav-icon material-icons">style</span> Skills</a></li>
+                      <li {% if page == 'quotes' %}class="active"{% endif %}><a href="/dashboard/quotes" title="Quotes"><span class="nav-icon material-icons">format_quote</span> Quotes</a></li>
+                      <li {% if page == 'projects' %}class="active"{% endif %}><a href="/dashboard/projects" title="Projects"><span class="nav-icon material-icons">folder</span> Projects</a></li>
+                      <li {% if page == 'interests' %}class="active"{% endif %}><a href="/dashboard/interests" title="Interests"><span class="nav-icon material-icons">loyalty</span> Interests</a></li>
+                      <li {% if page == 'fun_facts' %}class="active"{% endif %}><a href="/dashboard/fun_facts" title="Fun Facts"><span class="nav-icon material-icons">mood</span> Fun Facts</a></li>
+                      <li {% if page == 'repositories' %}class="active"{% endif %}><a href="/dashboard/repositories" title="Repositories"><span class="nav-icon material-icons">publish</span> Repositories</a></li>
+                      <li {% if page == 'socials' %}class="active"{% endif %}><a href="/dashboard/socials" title="Socials"><span class="nav-icon material-icons">group</span> Socials</a></li>
+                      <li {% if page == 'articles' %}class="active"{% endif %}><a href="/dashboard/articles" title="Arcticles"><span class="nav-icon material-icons">subject</span> Articles</a></li>
+                  </ul>
+                </nav>
+    
+              </aside>
+
+
+
+          <!--RIGHT CONTENT AREA-->
+          <div class="content-area">
+
+            <header class="header sticky-top">
+                <nav class="navbar navbar-light bg-white px-sm-4" style="padding: 12px">
+                    <a class="navbar-brand py-2 d-md-none  m-0 material-icons toggle-sidebar" href="index.html#">menu</a>
+                        <ul class="navbar-nav flex-row ml-auto">
+                            <li class="nav-item ml-sm-3 user-logedin dropdown">
+                              <a href="index.html#" id="userLogedinDropdown" data-toggle="dropdown" class="nav-link weight-400 dropdown-toggle"><img src="/images/{{user.profile.profile_picture}}" class="mr-2 rounded" width="25px">{{user.get_full_name}}</a>
+                              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userLogedinDropdown">
+                                <a class="dropdown-item" href="/dashboard/users/{{user.username}}">My Account</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">Log Out</a>
+                             </div>
+                            </li>
+                        </ul>
+                </nav>
+            </header>
+
+
+            <div class="content-wrapper">
+
+                <div class="row page-tilte align-items-center">
+                  <div class="col-md-auto">
+                    <h1 class="weight-300 h3 title">{{user_profile.get_full_name}}</h1>
+                  </div> 
+                  <div class="col controls-wrapper mt-3 mt-md-0 d-none d-md-block ">
+                    <div class="controls d-flex justify-content-center justify-content-md-end">
+                      
+                    </div>
+                  </div>
+                </div> 
+
+                      
+                <div class="content">
+                      
+                      <div class="row">
+                          <div class="col-lg-4 mb-4">
+                            <div class="alert alert-success alert-st-one" role="alert" id="update_message" style="border-radius:7px; display: none; background-color: #4CAF50; border-color: #4CAF50; padding-top: 15px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; text-align: center; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                                
+                            </div>
+                              <div class="card h-100">
+                                  <div class="card-body">
+                                    <div class="mx-5 my-4 px-4">
+                                          {% if user_profile.is_superuser %}
+                                                {% if user|user_can:'edit_admin_profile' %}
+                                                <div class="contain">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" onclick="choose_image()" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" class="img-thumbnail img-fluid rounded-circle image">
+                                                    <div class="middle" onclick="choose_image()">
+                                                        <div class="text">Change Image</div>
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                <div class="contain" style="text-align: center">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" class="img-thumbnail img-fluid rounded-circle">
+                                                </div>
+                                                {% endif %}
+                                            {% elif user_profile.is_institution_admin %}
+                                                {% if user|user_can:'edit_institution_admin_profile' %}
+                                                <div class="contain">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" onclick="choose_image()" class="img-thumbnail img-fluid rounded-circle image">
+                                                    <div class="middle" onclick="choose_image()">
+                                                        <div class="text">Change Image</div>
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                <div class="contain" style="text-align: center">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" class="img-thumbnail img-fluid rounded-circle">
+                                                </div>
+                                                    {% endif %}
+                                            {% elif user_profile.is_parent %}
+                                                {% if user|user_can:'edit_parent_profile' %}
+                                                <div class="contain">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" onclick="choose_image()" class="img-thumbnail img-fluid rounded-circle image">
+                                                    <div class="middle" onclick="choose_image()">
+                                                        <div class="text">Change Image</div>
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                <div class="contain" style="text-align: center">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" class="img-thumbnail img-fluid rounded-circle">
+                                                </div>
+                                                    {% endif %}
+                                            {% elif user_profile.student %}
+                                                {% if user|user_can:'edit_student_profile' %}
+                                                <div class="contain">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" onclick="choose_image()" class="img-thumbnail img-fluid rounded-circle image">
+                                                    <div class="middle" onclick="choose_image()">
+                                                        <div class="text">Change Image</div>
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                <div class="contain" style="text-align: center">
+                                                    <img src="/images/{{user_profile.profile.profile_picture}}" id="prof_pic" style="height: 200px; width: 210px; margin-left: auto;margin-right: auto;" class="img-thumbnail img-fluid rounded-circle">
+                                                </div>
+                                                    {% endif %}
+                                            {% endif %}
+                                    </div>
+
+                                      <div class="text-center">
+                                        <h5 class="weight-400">{{user_profile.first_name}} {{user_profile.middle_name}} {{user_profile.last_name}}</h5>
+                                        <p class=" text-muted">
+                                            {% if user_profile.is_superuser %}
+                                                Administrator
+                                            {% elif user_profile.is_institution_admin %}
+                                                Institution Administrator
+                                            {% elif user_profile.is_parent %}
+                                                Parent
+                                            {% elif user_profile.is_student %}
+                                                Students
+                                            {% endif %}
+                                        </p>
+                                      </div>
+
+                                      <hr class="my-4 dashed">
+                                      <form>
+                                        <div class="form-group row">
+                                          <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
+                                          <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="username" value="{{user_profile.username}}" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">First name </label>
+                                                <div class="col-sm-10">
+                                                  {% if user_profile.is_superuser %}
+                                                      {% if user|user_can:'edit_admin_profile' %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}">
+                                                      {% else %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}" disabled>
+                                                      {% endif %}
+                                                  {% elif user_profile.is_institution_admin %}
+                                                      {% if user|user_can:'edit_institution_admin_profile' %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}">
+                                                      {% else %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}" disabled>
+                                                      {% endif %}
+                                                  {% elif user_profile.is_parent %}
+                                                      {% if user|user_can:'edit_parent_profile' %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}">
+                                                      {% else %}
+                                                       <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}" disabled>
+                                                      {% endif %}
+                                                  {% elif user_profile.student %}
+                                                      {% if user|user_can:'edit_student_profile' %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}">
+                                                      {% else %}
+                                                          <input type="text" class="form-control" id="first_name" value="{{user_profile.first_name}}" disabled>
+                                                      {% endif %}
+                                                  {% endif %}
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Middle name </label>
+                                                <div class="col-sm-10">
+                                                      {% if user_profile.is_superuser %}
+                                                          {% if user|user_can:'edit_admin_profile' %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}">
+                                                          {% else %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}" disabled>
+                                                          {% endif %}
+                                                      {% elif user_profile.is_institution_admin %}
+                                                          {% if user|user_can:'edit_institution_admin_profile' %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}">
+                                                          {% else %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}" disabled>
+                                                          {% endif %}
+                                                      {% elif user_profile.is_parent %}
+                                                          {% if user|user_can:'edit_parent_profile' %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}">
+                                                          {% else %}
+                                                           <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}" disabled>
+                                                          {% endif %}
+                                                      {% elif user_profile.student %}
+                                                          {% if user|user_can:'edit_student_profile' %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}">
+                                                          {% else %}
+                                                              <input type="text" class="form-control" id="middle_name" value="{{user_profile.middle_name}}" disabled>
+                                                          {% endif %}
+                                                      {% endif %}
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Last name</label>
+                                                <div class="col-sm-10">
+                                                  {% if user_profile.is_superuser %}
+                                                      {% if user|user_can:'edit_admin_profile' %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}">
+                                                      {% else %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}" disabled>
+                                                      {% endif %}
+                                                  {% elif user_profile.is_institution_admin %}
+                                                      {% if user|user_can:'edit_institution_admin_profile' %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}">
+                                                      {% else %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}" disabled>
+                                                      {% endif %}
+                                                  {% elif user_profile.is_parent %}
+                                                      {% if user|user_can:'edit_parent_profile' %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}">
+                                                      {% else %}
+                                                       <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}" disabled>
+                                                      {% endif %}
+                                                  {% elif user_profile.student %}
+                                                      {% if user|user_can:'edit_student_profile' %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}">
+                                                      {% else %}
+                                                          <input type="text" class="form-control" id="last_name" value="{{user_profile.last_name}}" disabled>
+                                                      {% endif %}
+                                                  {% endif %}
+                                            </div>
+                                        </div>
+          
+                                        <div class="form-group row">
+                                          <label for="inputPassword3" class="col-sm-2 col-form-label">Email</label>
+                                          <div class="col-sm-10">
+                                            {% if user_profile.is_superuser %}
+                                                {% if user|user_can:'edit_admin_profile' %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}">
+                                                {% else %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}" disabled>
+                                                {% endif %}
+                                            {% elif user_profile.is_institution_admin %}
+                                                {% if user|user_can:'edit_institution_admin_profile' %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}">
+                                                {% else %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}" disabled>
+                                                {% endif %}
+                                            {% elif user_profile.is_parent %}
+                                                {% if user|user_can:'edit_parent_profile' %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}">
+                                                {% else %}
+                                                 <input type="email" class="form-control" id="email" value="{{user_profile.email}}" disabled>
+                                                {% endif %}
+                                            {% elif user_profile.student %}
+                                                {% if user|user_can:'edit_student_profile' %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}">
+                                                {% else %}
+                                                    <input type="email" class="form-control" id="email" value="{{user_profile.email}}" disabled>
+                                                {% endif %}
+                                            {% endif %}
+                                          </div>
+                                        </div>
+
+                                        
+                                              {% if user_profile.is_superuser %}
+                                                  {% if user|user_can:'edit_admin_profile' %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" accept="image/*" >
+                                                  {% else %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" disabled>
+                                                  {% endif %}
+                                              {% elif user_profile.is_institution_admin %}
+                                                  {% if user|user_can:'edit_institution_admin_profile' %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" accept="image/*">
+                                                  {% else %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" disabled>
+                                                  {% endif %}
+                                              {% elif user_profile.is_parent %}
+                                                  {% if user|user_can:'edit_parent_profile' %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" accept="image/*">
+                                                  {% else %}
+                                                   <input type="file" class="form-control" id="profile_picture" style="display: none;" disabled>
+                                                  {% endif %}
+                                              {% elif user_profile.student %}
+                                                  {% if user|user_can:'edit_student_profile' %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" accept="image/*">
+                                                  {% else %}
+                                                      <input type="file" class="form-control" id="profile_picture" style="display: none;" disabled>
+                                                  {% endif %}
+                                              {% endif %}
+
+          
+                                        <div class="form-group row">
+                                          <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Mobile</label>
+                                           <div class="col-sm-10">
+                                            {% if user_profile.is_superuser %}
+                                                {% if user|user_can:'edit_admin_profile' %}
+                                                    <input type="tel" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}">
+                                                {% else %}
+                                                    <input type="tel" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}" disabled>
+                                                {% endif %}
+                                            {% elif user_profile.is_institution_admin %}
+                                                {% if user|user_can:'edit_institution_admin_profile' %}
+                                                    <input type="tel" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}">
+                                                {% else %}
+                                                    <input type="tel" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}" disabled>
+                                                {% endif %}
+                                            {% elif user_profile.is_parent %}
+                                                {% if user|user_can:'edit_parent_profile' %}
+                                                    <input type="tel" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}">
+                                                {% else %}
+                                                 <input type="tel" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}" disabled>
+                                                {% endif %}
+                                            {% elif user_profile.student %}
+                                                {% if user|user_can:'edit_student_profile' %}
+                                                    <input type="email" class="form-control" id="mobile_no" value="{{user_profile.profile.mobile_no}}">
+                                                {% else %}
+                                                    <input type="email" class="form-control" id=mobile_no" value="{{user_profile.profile.mobile_no}}" disabled>
+                                                {% endif %}
+                                            {% endif %}
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Date of birth</label>
+                                             <div class="col-sm-10">
+                                                {% if user_profile.is_superuser %}
+                                                    {% if user|user_can:'edit_admin_profile' %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}">
+                                                    {% else %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}" disabled>
+                                                    {% endif %}
+                                                {% elif user_profile.is_institution_admin %}
+                                                    {% if user|user_can:'edit_institution_admin_profile' %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}">
+                                                    {% else %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}" disabled>
+                                                    {% endif %}
+                                                {% elif user_profile.is_parent %}
+                                                    {% if user|user_can:'edit_parent_profile' %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}">
+                                                    {% else %}
+                                                     <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}" disabled>
+                                                    {% endif %}
+                                                {% elif user_profile.student %}
+                                                    {% if user|user_can:'edit_student_profile' %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}">
+                                                    {% else %}
+                                                        <input type="date" class="form-control" id="date_of_birth" value="{{user_profile.profile.date_of_birth|date:'Y-m-d'}}" disabled>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                          </div>
+                                          <div style="position: relative; left: 35%;">
+                                          {% if user_profile.is_superuser %}
+                                            {% if user|user_can:'edit_admin_profile' %}
+                                                <button type="button" class="btn btn-info px-4 rounded mx-1" style="background-color: #6c757d; border-color: #6c757d" onclick="update_profile()">Update</button>
+                                            {% endif %}
+                                        {% elif user_profile.is_institution_admin %}
+                                            {% if user|user_can:'edit_institution_admin_profile' %}
+                                                <button type="button" class="btn btn-info px-4 rounded mx-1" style="background-color: #6c757d; border-color: #6c757d" onclick="update_profile()">Update</button>
+                                            {% endif %}
+                                        {% elif user_profile.is_parent %}
+                                            {% if user|user_can:'edit_parent_profile' %}
+                                                <button type="button" class="btn btn-info px-4 rounded mx-1" style="background-color: #6c757d; border-color: #6c757d" onclick="update_profile()">Update</button>
+                                            {% endif %}
+                                        {% elif user_profile.student %}
+                                            {% if user|user_can:'edit_student_profile' %}
+                                                <button type="button" class="btn btn-info px-4 rounded mx-1" style="background-color: #6c757d; border-color: #6c757d" onclick="update_profile()">Update</button>
+                                            {% endif %}
+                                        {% endif %}
+                                          </div>
+                                      </form>
+                                      <!--
+                                      <p><span class="weight-400">Username : </span><span class="text-muted">{{user_profile.username}}</span></p>
+                                      <p><span class="weight-400">Email : </span><span class="text-muted">{{user_profile.email}}</span></p> 
+                                      <p><span class="weight-400">Mobile  : </span><span class="text-muted">{{user_profile.profile.mobile_no}}</span></p>
+                                      <p><span class="weight-400">Date of birth : </span><span class="text-muted">{{user_profile.profile.date_of_birth}}</span></p>
+                                      -->
+                                  </div>
+                              </div>
+
+                          </div>
+                          <div class="col-lg-8" id="profile-stuff">
+                              
+                              <div class="card mb-4">
+                                <div class="card-header p-0">
+                                  <ul class="nav nav-tabs active-thik nav-primary border-0" id="myTab" role="tablist">
+                                    {% if user|user_can:'view_user_institutions' %}
+                                        {% if user_profile.is_parent or user_profile.is_institution_admin or user_profile.is_student %}
+                                        <li class="nav-item">
+                                            <a class="nav-link px-4 py-3 active rounded-0" id="view_institutions" data-toggle="tab" href="#institutions" role="tab" aria-controls="institutions" aria-selected="false">Institutions</a>
+                                        </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if user|user_can:'view_user_parents' %}
+                                        {% if user_profile.is_student %}
+                                        <li class="nav-item">
+                                            <a class="nav-link px-4 py-3 rounded-0" id="view_parents" data-toggle="tab" href="#parents" role="tab" aria-controls="parents" aria-selected="true">Parents</a>
+                                        </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if user|user_can:'view_user_students' %}
+                                        {% if user_profile.is_parent %}
+                                        <li class="nav-item">
+                                            <a class="nav-link px-4 py-3 rounded-0" id="view_students" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="true">Students</a>
+                                        </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if user_profile.is_superuser %}
+                                    {% if user|user_can:'view_admin_permissions' %}
+                                    <li class="nav-item">
+                                      <a class="nav-link px-4 py-3 rounded-0" id="view_permissions" data-toggle="tab" href="#permissions" role="tab" aria-controls="permissions" aria-selected="false">Permissions</a>
+                                    </li>
+                                    {% endif %}
+                                    {% elif user_profile.is_institution_admin %}
+                                    {% if user|user_can:'view_institution_admin_permissions' %}
+                                    <li class="nav-item">
+                                      <a class="nav-link px-4 py-3 rounded-0" id="view_permissions" data-toggle="tab" href="#permissions" role="tab" aria-controls="permissions" aria-selected="false">Permissions</a>
+                                    </li>
+                                    {% endif %}
+                                    {% elif user_profile.is_parent %}
+                                    {% if user|user_can:'view_parent_permissions' %}
+                                    <li class="nav-item">
+                                      <a class="nav-link px-4 py-3 rounded-0" id="view_permissions" data-toggle="tab" href="#permissions" role="tab" aria-controls="permissions" aria-selected="false">Permissions</a>
+                                    </li>
+                                    {% endif %}
+                                    {% elif user_profile.is_student %}
+                                    {% if user|user_can:'view_student_permissions' %}
+                                    <li class="nav-item">
+                                      <a class="nav-link px-4 py-3 rounded-0" id="view_permissions" data-toggle="tab" href="#permissions" role="tab" aria-controls="permissions" aria-selected="false">Permissions</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endif %}
+                                  </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content" id="myTabContent">
+                                        {% if user|user_can:'view_user_institutions' %}
+                                            {% if user_profile.is_parent or user_profile.is_institution_admin or user_profile.is_student %}  
+                                            <div class="tab-pane fade show active" id="institutions" role="tabpanel" aria-labelledby="institutions-tab">
+                                                {% for institution in user_profile.profile.institutions.all %}
+                                                    {{institution.institution_name}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                            {% if user_profile.is_institution_admin or user_profile.is_student %}  
+                                            <div class="tab-pane fade show active" id="institutions" role="tabpanel" aria-labelledby="institutions-tab">
+                                                {{user_profile.institution.institution_name}}
+                                            </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if user|can:'view_user_parents' %}
+                                            {% if user_profile.is_student %}
+                                            <div class="tab-pane fade " id="parents" role="tabpanel" aria-labelledby="parents-tab">
+                                                {% for parent in user_profile.profile.parents.all %}
+                                                    {{parent.get_full_name}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if user|user_can:'view_user_students' %}
+                                            {% if user_profile.is_parent %}
+                                            <div class="tab-pane fade " id="students" role="tabpanel" aria-labelledby="students-tab">
+                                                {% for student in user_profile.profile.students.all %}
+                                                    {{student.get_full_name}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if user_profile.is_superuser %}
+                                        {% if user|user_can:'view_admin_permissions' %}
+                                        <div class="tab-pane fade " id="permissions" role="tabpanel" aria-labelledby="permissions-tab">
+                                            
+                                            <div>
+                                                <form>
+                                                    {% for key, value in permissions %}
+                                                        <div class="form-group row">
+                                                            <label for="inputEmail3" class="col-sm-2 col-form-label">{{key|cut:'_'}}</label>
+                                                            <div class="col-sm-10">
+                                                                <label class="switch" style="left: 83%;">
+                                                                    <input type="checkbox" {% if value == True %} checked {% endif %} {% if not user|user_can:'edit_admin_permissions' %} disabled {% endif %} id="{{key}}" onchange="change_permission(this)" >
+                                                                    <span class="slider round"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                               </form>
+                                        </div>
+                                        {% endif %}
+                                        {% elif user_profile.is_institution_admin %}
+                                        {% if user|user_can:'view_institution_admin_permissions' %}
+                                        <div class="tab-pane fade " id="permissions" role="tabpanel" aria-labelledby="permissions-tab">
+                                            
+                                            <div>
+                                                <form>
+                                                    {% for key, value in permissions %}
+                                                        <div class="form-group row">
+                                                            <label for="inputEmail3" class="col-sm-2 col-form-label">{{key|cut:'_'}}</label>
+                                                            <div class="col-sm-10">
+                                                                <label class="switch" style="left: 83%;">
+                                                                    <input type="checkbox" {% if value == True %} checked {% endif %} {% if not user|user_can:'edit_institution_admin_permissions' %} disabled {% endif %} id="{{key}}" onchange="change_permission(this)" >
+                                                                    <span class="slider round"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                               </form>
+                                        </div>
+                                        {% endif %}
+                                        {% elif user_profile.is_parent %}
+                                        {% if user|user_can:'view_parent_permissions' %}
+                                        <div class="tab-pane fade " id="permissions" role="tabpanel" aria-labelledby="permissions-tab">
+                                            
+                                            <div>
+                                                <form>
+                                                    {% for key, value in permissions %}
+                                                        <div class="form-group row">
+                                                            <label for="inputEmail3" class="col-sm-2 col-form-label">{{key|cut:'_'}}</label>
+                                                            <div class="col-sm-10">
+                                                                <label class="switch" style="left: 83%;">
+                                                                    <input type="checkbox" {% if value == True %} checked {% endif %} {% if not user|user_can:'edit_parent_permissions' %} disabled {% endif %} id="{{key}}" onchange="change_permission(this)" >
+                                                                    <span class="slider round"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                               </form>
+                                        </div>
+                                        {% endif %}
+                                        {% elif user_profile.is_student %}
+                                        {% if user|user_can:'view_student_permissions' %}
+                                        <div class="tab-pane fade " id="permissions" role="tabpanel" aria-labelledby="permissions-tab">
+                                            
+                                            <div>
+                                                <form>
+                                                    {% for key, value in permissions %}
+                                                        <div class="form-group row">
+                                                            <label for="inputEmail3" class="col-sm-2 col-form-label">{{key|cut:'_'}}</label>
+                                                            <div class="col-sm-10">
+                                                                <label class="switch" style="left: 83%;">
+                                                                    <input type="checkbox" {% if value == True %} checked {% endif %} {% if not user|user_can:'edit_student_permissions' %} disabled {% endif %} id="{{key}}" onchange="change_permission(this)" >
+                                                                    <span class="slider round"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                               </form>
+                                        </div>
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                          </div>
+                      </div>
+
+                      
+
+
+                </div>
+
+
+                <footer class="footer">
+                  <p class="text-muted m-0"><small class="float-right">Made with <span class="material-icons md-16 text-danger align-middle">favorite</span> by Akshay Kumar </small><small >FreakPixels © 2017–2018 - freakpixels.com</small></p>
+                </footer>
+
+
+
+
+            </div>
+
+
+          </div>
+
+
+      </section>
+
+      <script>
+      function change_permission(input){
+            var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            if(input.checked === true){
+                var data = {
+                    "permission_name": input.id,
+                    "value": true,
+                    "csrfmiddlewaretoken": csrf_token
+                };
+                if(navigator.onLine === true){
+                    $.post("{{url}}/dashboard/users/{{user_profile.username}}/permissions", data,
+                    function(response, status){
+                        if(status === "success"){
+                            if(response.status === "error"){
+                                input.checked = false;
+                            }
+                        }
+                    });
+                }else{
+                    input.checked = false;
+                }
+            }else if(input.checked === false){
+                var data = {
+                    "permission_name": input.id,
+                    "value": false,
+                    "csrfmiddlewaretoken": csrf_token
+                };
+                if(navigator.onLine === true){
+                    $.post("{{url}}/dashboard/users/{{user_profile.username}}/permissions", data,
+                    function(response, status){
+                        if(status === "success"){
+                            if(response.status === "error"){
+                                input.checked = true;
+                            }
+                        }
+                    });
+                }else{
+                    input.checked = true;
+                }  
+            }
+      }  
+
+      function set_image(element){
+          element.src = "{% static 'add.png' %}";
+      }
+
+      function reset_image(element){
+          element.src = "{{user_profile.profile.profile_picture}}";
+      }
+
+      function choose_image(){
+        $('#profile_picture').click();
+      }
+
+      window.addEventListener('load', function () {
+            var profile = document.getElementById("profile-stuff");
+            var tab = document.getElementById("myTab").innerHTML.trim();
+            if(tab === ""){
+                profile.parentNode.removeChild(profile);
+            }
+        }, false);   
+
+        function update_profile(){
+            var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            var username = document.getElementById("username");
+            var first_name = document.getElementById("first_name");
+            var middle_name = document.getElementById("middle_name");
+            var last_name = document.getElementById("last_name");
+            var email = document.getElementById("email");
+            var mobile_no = document.getElementById("mobile_no");
+            var date_of_birth = document.getElementById("date_of_birth");
+            var fd = new FormData();
+            var file = $('#profile_picture')[0].files[0];
+            fd.append('profile_picture',file);
+            fd.append('username', username.value);
+            fd.append('first_name', first_name.value);
+            fd.append('middle_name', middle_name.value);
+            fd.append('last_name', last_name.value);
+            fd.append('email', email.value);
+            fd.append('mobile_no', mobile_no.value);
+            fd.append('date_of_birth', date_of_birth.value);
+            fd.append('csrfmiddlewaretoken', csrf_token);
+            $.ajax({
+                url: '{{url}}/dashboard/users/{{user_profile.username}}/profile',
+                type: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response.status == "success"){
+                        var elem = document.getElementById("update_message");
+                        elem.style.display = "block";
+                        elem.innerHTML = '<p style="color: white; font-size: 15px; margin-bottom: 2p;">Profile updated</p>';
+                        setTimeout(function(){ elem.style.display = "none"; }, 20000);
+                        $("#prof_pic").attr("src",response.url);
+                    }
+                },
+            });
+            return false;
+        } 
+      </script>
+
+      <!-- ChartJS -->
+      <script src="{% static 'assets/js/chartjs/Chart.js' %}"></script>
+      <script src="{% static 'assets/js/chartjs/utils.js' %}"></script>
+      
+      <script src="{% static 'assets/js/lib/moment.min.js' %}"></script>
+      <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script>
+      <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap/bootstrap.min.js' %}"></script>
+      <script src="{% static 'assets/js/chosen-js/chosen.jquery.js' %}"></script>
+      <script src="{% static 'assets/js/fullcalendar/fullcalendar.js' %}"></script>
+      
+      <script src="{% static 'assets/js/daterangepicker/daterangepicker.min.js' %}"></script>
+      <script src="{% static 'assets/js/custom.js' %}"></script>
+
+      <script src="{% static 'assets/js/pages/dashboard.script.js' %}"></script>
+
+
+          <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56821827-7"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-56821827-7');
+      </script>
+
+  </body>
+</html>

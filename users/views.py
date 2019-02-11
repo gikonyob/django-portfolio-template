@@ -275,3 +275,7 @@ class DeleteItem(View):
             return JsonResponse({
                 "status": "success",
             })
+
+class GetProfile(View):
+    def get(self, request, username):
+        return render(request, 'profile.html', {})
