@@ -14,4 +14,6 @@ urlpatterns = [
     path('dashboard/repositories', login_required(user_views.Repositories.as_view(), login_url='landing'), name='dashboard_repositories'),
     path('dashboard/socials', login_required(user_views.Socials.as_view(), login_url='landing'), name='dashboard_socials'),
     path('dashboard/articles', login_required(user_views.Articles.as_view(), login_url='landing'), name='dashboard_articles'),
+    path('dashboard/items/add', login_required(user_views.AddItem.as_view(), login_url='landing'), name='dashboard_add'),
+    path('dashboard/items/delete', login_required(user_views.DeleteItem.as_view(), login_url='landing'), name='dashboard_delete'),
 ]

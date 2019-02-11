@@ -27,38 +27,59 @@ class Skills(models.Model):
     name = models.CharField(max_length=150)
     percentage = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
 class Quotes(models.Model):
     quote = models.TextField(blank=True)
     quoter = models.CharField(max_length=100)
 
-class Technologies(models.Model):
-    name = models.CharField(max_length=150)
+    def __str__(self):
+        return self.quote
 
 class Projects(models.Model):
     name = models.CharField(max_length=150)
     url = models.URLField(max_length=255)
-    technologies = models.ManyToManyField(Technologies)
+    site = models.URLField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 class Interests(models.Model):
     name = models.CharField(max_length=150)
 
+    def __str__(self):
+        return self.name
+
 class FunFacts(models.Model):
     fact = models.TextField(blank=True)
     who_by = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.fact
 
 class Repositories(models.Model):
     repository_name = models.CharField(max_length=150)
     url = models.URLField(max_length=255)
     site = models.URLField(max_length=255)
 
+    def __str__(self):
+        return self.repository_name
+
 class Social(models.Model):
     name = models.CharField(max_length=150)
     url = models.URLField(max_length=255)
     site = models.URLField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 class Articles(models.Model):
     title = models.CharField(max_length=200)
     url = models.URLField(max_length=255)
+
+    def __str__(self):
+        return self.title
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
