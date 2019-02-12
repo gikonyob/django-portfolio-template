@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
@@ -6,6 +7,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.views import View
 from users import models
+from users.forms import UpdateProfileForm 
 
 User = get_user_model()
 
@@ -279,3 +281,44 @@ class DeleteItem(View):
 class GetProfile(View):
     def get(self, request, username):
         return render(request, 'profile.html', {})
+
+class UpdateProfile(View):
+    def post(self, request, username):
+        first_name = request.POST.get("first_name")
+        middle_name = request.POST.get("middle_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        mobile_no = request.POST.get("mobile_no")
+        secondary_email = request.POST.get("secondary_email")
+        secondary_mobile_no = request.POST.get("secondary_mobile_no")
+        bio = request.POST.get("bio")
+        date_of_birth = datetime.datetime.strptime(request.POST.get("date_of_birth"),'%Y-%m-%d')
+        try:
+            user = User.objects.get(username=username)
+            user.first_name = first_name
+            user.middle_name = middle_name
+            user.last_name = last_name
+            user.email = email
+            user.save()
+            updated_form = UpdateProfileForm({
+                "secondary_email": secondary_email,
+                "mobile_no": mobile_no,
+                "secondary_mobile_no": secondary_mobile_no,
+                "bio": bio,
+                "date_of_birth": date_of_birth, 
+                },
+                request.FILES, instance=user.profile)
+            if updated_form.is_valid():
+                updated_form.save()
+                return  JsonResponse({
+                    "status": "success",
+                    "url": user.profile.profile_picture.url
+                })
+            else:
+                return  JsonResponse({
+                    "status": "error",
+                })
+        except User.DoesNotExist:
+            return  JsonResponse({
+                "status": "error",
+            })

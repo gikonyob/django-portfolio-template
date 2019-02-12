@@ -170,7 +170,7 @@
                     {% if page == 'skills' %}
                     <div class="form-group">
                       <label for="percentage">Percentage</label>
-                      <input type="text" class="form-control" id="percentage" name="percentage">
+                      <input type="number" class="form-control" max="100" min="0" id="percentage" name="percentage">
                     </div>
                     {% endif %}
                     {% if page == 'articles' %}
@@ -306,9 +306,21 @@
                             {{skill.name}}
                           </a>
                       </td>
-                      <td data-label="Percentage">
+                      <td data-label="Percentage" title="{{skill.percentage}}%">
                             <a  class="text-secondary">
-                            {{skill.percentage}}
+                              <div class="progress" style="height:15px;">
+                                <div class="progress-bar 
+                                {% if skill.percentage <= 25 %}
+                                  bg-danger
+                                {% elif skill.percentage <= 50 and skill.percentage > 25 %}
+                                  bg-warning
+                                {% elif skill.percentage <= 75 and skill.percentage > 50 %}
+                                  bg-primary
+                                {% elif skill.percentage > 75 %}
+                                  bg-success
+                                {% endif %}
+                                " role="progressbar" style="width: {{skill.percentage}}%" aria-valuenow="{{skill.percentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
                             </a>
                       </td>
                       

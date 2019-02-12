@@ -84,8 +84,8 @@ class Articles(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     secondary_email = models.EmailField(max_length=60, unique=True)
-    telephone_no = models.CharField(max_length=13, blank=True)
-    secondary_telephone_no = models.CharField(max_length=13, blank=True)
+    mobile_no = models.CharField(max_length=13, blank=True)
+    secondary_mobile_no = models.CharField(max_length=13, blank=True)
     date_of_birth = models.DateField(default=datetime.datetime(1900, 1, 1))
     profile_picture = models.ImageField(upload_to=unique_photo_path, default='profile_photos/user.png')
     bio = models.TextField(blank=True)
