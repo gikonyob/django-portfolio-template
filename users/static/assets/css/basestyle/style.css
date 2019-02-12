@@ -10780,7 +10780,6 @@ Modal Variations
 }
 /* line 49, ../../scss/basestyle/components/_sidebar.scss */
 .sidebar .navigation {
-  padding: 24px 0px;
   overflow: auto;
   height: calc(100vh - 62px);
 }

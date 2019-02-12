@@ -69,63 +69,63 @@ class Logout(View):
 
 class Dashboard(View):
     def get(self, request):
-        return render(request, 'dashboard.html', {"page": "home"})
+        return render(request, 'dashboard.html', {"page": "home", "title": "Home - Portfolio Dash"})
 
 class Skills(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         skills = user.profile.skills.all()
-        return render(request, 'dashboard.html', {"page": "skills", "skills": skills})
+        return render(request, 'dashboard.html', {"page": "skills", "skills": skills, "title": "Skills - Portfolio Dash"})
 
 class Quotes(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         quotes = user.profile.quotes.all()
-        return render(request, 'dashboard.html', {"page": "quotes", "quotes": quotes})
+        return render(request, 'dashboard.html', {"page": "quotes", "quotes": quotes, "title": "Quotes - Portfolio Dash"})
 
 class Projects(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         projects = user.profile.projects.all()
-        return render(request, 'dashboard.html', {"page": "projects", "projects": projects})
+        return render(request, 'dashboard.html', {"page": "projects", "projects": projects, "title": "Projects - Portfolio Dash"})
 
 class Interests(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         interests = user.profile.interests.all()
-        return render(request, 'dashboard.html', {"page": "interests", "interests": interests})
+        return render(request, 'dashboard.html', {"page": "interests", "interests": interests, "title": "Interests - Portfolio Dash"})
 
 class FunFacts(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         fun_facts = user.profile.fun_facts.all()
-        return render(request, 'dashboard.html', {"page": "fun_facts", "fun_facts": fun_facts})
+        return render(request, 'dashboard.html', {"page": "fun_facts", "fun_facts": fun_facts, "title": "Fun Facts - Portfolio Dash"})
 
 class Repositories(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         repositories = user.profile.repositories.all()
-        return render(request, 'dashboard.html', {"page": "repositories", "repositories": repositories})
+        return render(request, 'dashboard.html', {"page": "repositories", "repositories": repositories, "title": "Repositories - Portfolio Dash"})
 
 class Socials(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         socials = user.profile.socials.all()
-        return render(request, 'dashboard.html', {"page": "socials", "socials": socials})
+        return render(request, 'dashboard.html', {"page": "socials", "socials": socials, "title": "Socials - Portfolio Dash"})
 
 class Articles(View):
     def get(self, request):
         email = request.user
         user = User.objects.get(email=email)
         articles = user.profile.articles.all()
-        return render(request, 'dashboard.html', {"page": "articles", "articles": articles})
+        return render(request, 'dashboard.html', {"page": "articles", "articles": articles, "title": "Articles - Portfolio Dash"})
 
 class AddItem(View):
     def post(self, request):
@@ -280,7 +280,8 @@ class DeleteItem(View):
 
 class GetProfile(View):
     def get(self, request, username):
-        return render(request, 'profile.html', {})
+        user = User.objects.get(username=username)
+        return render(request, 'profile.html', {"title": user.get_full_name() + " - Portfolio Dash"})
 
 class UpdateProfile(View):
     def post(self, request, username):
