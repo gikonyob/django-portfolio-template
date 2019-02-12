@@ -18,6 +18,8 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
     <!-- Date Range Picker -->
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/daterangepicker/daterangepicker.css' %}" />
 
@@ -26,8 +28,6 @@
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}"/>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-tagsinput.css' %}"/>
      
     <title>{{title}}</title>
 
@@ -665,9 +665,15 @@
                           </a>
                       </td>
                       <td data-label="Site">
-                            <a href="{{repository.site}}" class="text-secondary">
-                            {{repository.site}}
-                            </a>
+                          <a href="{{repository.site}}" class="text-secondary">
+                            {% if repository.site == 'https://github.com' %}
+                              <span title="Github" class="fa fa-github-alt" style="font-size: 30px"></span>
+                            {% elif repository.site == 'https://bitbucket.org' %}
+                              <span title="Bitbucket" class="fa fa-bitbucket" style="font-size: 30px"></span>
+                            {% elif repository.site == 'https://gitlab.com' %}
+                              <span title="Gitlab" class="fa fa-gitlab" style="font-size: 30px"></span>
+                            {% endif %}
+                          </a>
                       </td>
                       
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
@@ -738,7 +744,15 @@
                       </td>
                       <td data-label="Site">
                             <a href="{{social.site}}" class="text-secondary">
-                            {{social.site}}
+                            {% if social.site == 'https://www.facebook.com' %}
+                              <span title="Facebook" class="fa fa-facebook" style="font-size: 30px"></span>
+                            {% elif social.site == 'https://www.instagram.com' %}
+                              <span title="Instagram" class="fa fa-instagram" style="font-size: 30px"></span>
+                            {% elif social.site == 'https://www.linkedin.com' %}
+                              <span title="Linkedin" class="fa fa-linkedin" style="font-size: 30px"></span>
+                            {% elif social.site == 'https://www.twitter.com' %}
+                              <span title="Twitter" class="fa fa-twitter" style="font-size: 30px"></span>
+                            {% endif %}
                             </a>
                       </td>                      
                       <td data-label="Actions" class="text-md-center dropdown dropleft">
