@@ -115,6 +115,10 @@
                 transform: translate(24px, 0);
             }
         }
+        @font-face {
+          font-family: Fonarto;
+          src: url({% static 'assets/fonts/Fonarto.ttf' %});
+      }
     </style>
 
     <title>Home - Porfolio Template</title>
@@ -175,7 +179,7 @@
                 <header class=" my-3">
                     <div class="container">
                     <nav class="navbar navbar-expand-lg navbar-dark px-0">
-                      <h1 class="weight-400 m-0"><a class="navbar-brand text-dark align-middle" href=""><b><img style="height: 30px;" src="{% static 'logo.png' %}" /></b></a></h1>
+                      <h1 class="weight-400 m-0"><a class="navbar-brand text-dark align-middle" href=""><span style="font-family: Fonarto; width: 140px; height: 36px; color: #fff">Portfolio Dash</span></a></a></h1>
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                       </button>
@@ -191,7 +195,7 @@
                 <div class="container align-items-center d-flex flex-grow-1">
                     <div class="row  ">
                         <div class="col-md order-md-2" style="position: static;">
-                            <img src="assets/images/app.png" class="app-image mb-md-auto mb-4 img-fluid">
+                            
                         </div>
                         <div class="col-md order-md-1 text-center text-md-left">
                             <h1 class="mb-3" style="color: #fff">Django Portfolio Demo</h1>
