@@ -1,4 +1,4 @@
-Django==1.11.3
+Django==1.11.28
 gunicorn==19.7.1
 olefile==0.44
 Pillow==6.2.0
